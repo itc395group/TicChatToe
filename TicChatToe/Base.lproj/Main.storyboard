@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--LoginVCFORTESTINGONLY-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="LoginVC_FOR_TESTING_ONLY" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -44,11 +44,17 @@
                                 <rect key="frame" x="67" y="499" width="70" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Sign Up"/>
+                                <connections>
+                                    <action selector="doSignUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GlB-ry-RHE"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LDV-f2-dEg">
                                 <rect key="frame" x="298" y="499" width="49" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Login"/>
+                                <connections>
+                                    <action selector="doLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VBv-3O-Coq"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -71,16 +77,19 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <segue destination="CJ4-up-8E6" kind="showDetail" id="DkI-7U-qg3"/>
+                        <outlet property="passwordField" destination="ilp-gg-9qf" id="Vxu-xo-XLM"/>
+                        <outlet property="usernameField" destination="qsE-G5-QZT" id="kXQ-3Q-Bn1"/>
+                        <segue destination="CJ4-up-8E6" kind="showDetail" identifier="loginSegue" id="DkI-7U-qg3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="35" y="121"/>
         </scene>
         <!--Player Selection-->
         <scene sceneID="MwI-Bf-XcN">
             <objects>
-                <tableViewController id="LgK-MQ-Dfg" sceneMemberID="viewController">
+                <tableViewController id="LgK-MQ-Dfg" customClass="UserSelectionTableViewController" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mb4-ta-vJw">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -165,7 +174,18 @@
                             <outlet property="delegate" destination="LgK-MQ-Dfg" id="6An-HP-zUc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq"/>
+                    <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
+                        <barButtonItem key="leftBarButtonItem" title="Test Set Online" id="gup-ap-7Eb">
+                            <connections>
+                                <action selector="testSetOnlineBtn:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Test Usr Sel" id="gxx-CR-VkD">
+                            <connections>
+                                <action selector="testUserBtn:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="PZ2-nc-91w" kind="show" id="rtk-my-Ukz"/>
                     </connections>
@@ -342,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2K-ca-VwI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2655.072463768116" y="117.85714285714285"/>
+            <point key="canvasLocation" x="2665" y="121"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="eDV-1B-ctH">
