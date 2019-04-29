@@ -177,18 +177,18 @@
                     <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
                         <barButtonItem key="leftBarButtonItem" title="SetOnl" id="gup-ap-7Eb">
                             <connections>
-                                <action selector="testSetOnlineBtn:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
+                                <action selector="SetUserStatusOnline:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem title="UsrSel" id="gxx-CR-VkD">
                                 <connections>
-                                    <action selector="testUserBtn:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
+                                    <action selector="FindSelectedUser:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="refreshDat" id="SQK-XX-KeY">
                                 <connections>
-                                    <action selector="testRefreshData:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
+                                    <action selector="RefreshParseData:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>

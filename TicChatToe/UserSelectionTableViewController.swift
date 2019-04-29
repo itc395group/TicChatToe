@@ -12,9 +12,10 @@ import Parse
 class UserSelectionTableViewController: UITableViewController {
     
     // Class Variables
-    let expireTime = 60.0
+    let debugInfo: Bool = false
+    let expireTime = 10.0
     var onlineUsers: [PFObject] = [];
-    var queryLimit = 5
+    var queryLimit = 15
     var selectedUser = "hb1"
 
     override func viewDidLoad() {
@@ -32,37 +33,44 @@ class UserSelectionTableViewController: UITableViewController {
     // Finds if object is expired or not
     func isExpired(obj: PFObject) -> Bool {
         if ((obj.createdAt) == nil){
-            //print("EXPIRED")
+            print("EXPIRED")
             garbageObj(obj: obj)
             return true;
         }
         
         let storedTime = obj.createdAt as! Date;
+        let expTime = storedTime.addingTimeInterval(expireTime);
+        let nowTime = Date();
         
-        if (storedTime >= Date().addingTimeInterval(expireTime)){
-            //print("EXPIRED")
+        if (debugInfo){
+            print("now time: \(nowTime)")
+            print("obj time: \(storedTime)")
+            print("exp time: \(expTime)")
+        }
+        
+        if (expTime < nowTime){
+            if (debugInfo){print("EXPIRED")}
             garbageObj(obj: obj)
             return true
         }
         else {
-            print("not-expired")
+            if (debugInfo){print("NOT-EXPIRED")}
             return false
         }
     }
     
     // Removed a specified object
     func garbageObj(obj: PFObject){
-        if (isExpired(obj: obj) == true){
-            
+        
             obj.deleteInBackground(block: { (sucess, error) in
                 if (sucess == true){
                     print("Delete: TRUE")
+                    self.getOnlineUserList()
                 }
                 else {
                     print("Delete: FALSE")
                 }
             })
-        }
     }
     
     //-------------------- Parse Related --------------------//
@@ -74,7 +82,6 @@ class UserSelectionTableViewController: UITableViewController {
         let query = PFQuery(className:"Users")
         query.limit = queryLimit;
         query.includeKey("user")
-        //query.whereKey("createdAt", lessThan: Date().addingTimeInterval(expireTime))
         query.order(byDescending: "createdAt")
         
         query.findObjectsInBackground { (messages, error) in
@@ -93,45 +100,37 @@ class UserSelectionTableViewController: UITableViewController {
     
     //-------------------- Actions --------------------//
     
-    // Tries to find selected user
-    @IBAction func testUserBtn(_ sender: Any) {
+    // Tries to find selected user using variable "selectedUser"
+    @IBAction func FindSelectedUser(_ sender: Any) {
         for index in 0..<onlineUsers.count {
             let singleUser = self.onlineUsers[index];
             let usr = (singleUser["user"] as! PFUser).username
             if (isExpired(obj: singleUser) == true) {
-                //print("expired user: \(usr.username ?? "")")
+                print("Found Selected User Offline: \(selectedUser)")
             }
             else{
                 if (usr == selectedUser){
-                    print("online user: \(selectedUser)")
+                    print("Found Selected User Online: \(selectedUser)")
                 }
             }
+        }
+        if (onlineUsers.count <= 0){
+            print("No Users Online!")
         }
     }
     
     // This will show other users that you are online
-    @IBAction func testSetOnlineBtn(_ sender: Any) {
-        // This snippit will reset the "dead man's switch"
-        //var objID = "";
-        //var upd = Date();
+    @IBAction func SetUserStatusOnline(_ sender: Any) {
         let countOfMessages = self.onlineUsers.count;
-        print("countmsg: \(countOfMessages)")
-        //var singleUsrObjID = ""
         for index in 0..<countOfMessages {
-            // gets a single message
+
             let singleUser = self.onlineUsers[index];
-            //print(singleUser)
             let usr = (singleUser["user"] as? PFUser)
-//            if (singleUser["objectId"] != nil){
-//            singleUsrObjID = (singleUser["objectId"]) as! String
-//            upd = (singleUser.createdAt as! Date)
-//            }
-            //print("current: \(PFUser.current())")
-            //print("usr: \(usr)")
             if(usr == PFUser.current() && isExpired(obj: singleUser) == false){
-                print("Found unexpires self user obj! testsetbtnonline")
+                print("Found Self Unexpired")
             }
             else{
+                // If status has expired, renew
                 let singleUser = PFObject(className: "Users");
                 singleUser["user"] = PFUser.current();
                 
@@ -144,6 +143,7 @@ class UserSelectionTableViewController: UITableViewController {
                 }
             }
         }
+        // If there are no statuses to trigger for loop, set status
         if (countOfMessages == 0){
             let singleUser = PFObject(className: "Users");
             singleUser["user"] = PFUser.current();
@@ -158,7 +158,8 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func testRefreshData(_ sender: Any) {
+    @IBAction func RefreshParseData(_ sender: Any) {
+        // refresh parse data
         getOnlineUserList()
     }
     
