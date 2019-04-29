@@ -21,12 +21,14 @@ class UserSelectionTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        // Used for testing, acts as if a user pushed the connect button to those users
         if (PFUser.current()?.username == "hb1"){
             selectedUser = "hb2"
         }
@@ -37,7 +39,7 @@ class UserSelectionTableViewController: UITableViewController {
     
     //-------------------- Utilities --------------------//
     
-    // Finds if object is expired or not
+    // Finds if object is expired or not, and if it is it will call the garbage collector.
     func isExpired(obj: PFObject) -> Bool {
         if ((obj.createdAt) == nil){
             print("EXPIRED")
@@ -95,19 +97,18 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Removed a specified object
     func garbageObj(obj: PFObject){
-        
-            obj.deleteInBackground(block: { (sucess, error) in
-                if (sucess == true){
-                    print("Delete: TRUE")
-                    self.getOnlineUserList()
-                }
-                else {
-                    print("Delete: FALSE")
-                }
-            })
+        obj.deleteInBackground(block: { (sucess, error) in
+            if (sucess == true){
+                print("Delete: TRUE")
+                self.getOnlineUserList()
+            }
+            else {
+                print("Delete: FALSE")
+            }
+        })
     }
     
-    //-------------------- Parse Related --------------------//
+    //-------------------- Parse Get Functions --------------------//
     
     // Refresh OnlineUserList
     func getOnlineUserList(){
@@ -128,11 +129,11 @@ class UserSelectionTableViewController: UITableViewController {
                 print("Successfully retrieved \(message.count) posts.")
             }
             print ("reload tableView")
-            //self.tableView.reloadData();
+            self.tableView.reloadData();
         }
     }
     
-    // Refresh OnlineUserList
+    // Refresh Verification List
     func getVerificationList(){
         print("Get Parse Data")
         
@@ -151,7 +152,7 @@ class UserSelectionTableViewController: UITableViewController {
                 print("Successfully retrieved \(message.count) posts.")
             }
             print ("reload tableView")
-            //self.tableView.reloadData();
+            self.tableView.reloadData();
         }
     }
     
@@ -225,8 +226,9 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Button to call Refresh Parse Data
     @IBAction func RefreshParseDataBTN(_ sender: Any) {
-            RefreshParseData()
+        RefreshParseData()
     }
+    // Does a combined refresh and listen
     func RefreshParseData(){
         // refresh parse data
         getOnlineUserList()
@@ -234,20 +236,22 @@ class UserSelectionTableViewController: UITableViewController {
         listenForVerification()
     }
     
+    // Used for testing, doesn't work super well, but keeping it for testing anyhow.
     @IBAction func autoTester(_ sender: Any) {
         atemptToConnect()
     }
     
     //-------------------- Verification Related --------------------//
     
+    // A testing function that will be replaced once we have a timer function
     func atemptToConnect(){
-            self.SetUserStatusOnline()
-            self.getOnlineUserList()
-            self.getVerificationList()
-            self.FindSelectedUsers()
-            self.getOnlineUserList()
-            self.getVerificationList()
-            self.listenForVerification()
+        self.SetUserStatusOnline()
+        self.getOnlineUserList()
+        self.getVerificationList()
+        self.FindSelectedUsers()
+        self.getOnlineUserList()
+        self.getVerificationList()
+        self.listenForVerification()
     }
     
     // Listen for Verification
@@ -282,6 +286,7 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Sends Verification
     func sendVerification(str: String){
+        // Sends first verification
         if (str == "first_send"){
             let singleUser = PFObject(className: "ConnectionData");
             singleUser["user"] = PFUser.current();
@@ -296,6 +301,7 @@ class UserSelectionTableViewController: UITableViewController {
                 }
             }
         }
+            // Sends second verification
         else if (str == "send_heard"){
             let singleUser = PFObject(className: "ConnectionData");
             singleUser["user"] = PFUser.current();
@@ -315,70 +321,70 @@ class UserSelectionTableViewController: UITableViewController {
     //-------------------- Table View Related --------------------//
     
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
-
+    
     /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
+     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+     
+     // Configure the cell...
+     
+     return cell
+     }
+     */
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
+     // Override to support editing the table view.
+     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+     if editingStyle == .delete {
+     // Delete the row from the data source
+     tableView.deleteRows(at: [indexPath], with: .fade)
+     } else if editingStyle == .insert {
+     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+     }
+     }
+     */
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
