@@ -175,16 +175,23 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
-                        <barButtonItem key="leftBarButtonItem" title="Test Set Online" id="gup-ap-7Eb">
+                        <barButtonItem key="leftBarButtonItem" title="SetOnl" id="gup-ap-7Eb">
                             <connections>
                                 <action selector="testSetOnlineBtn:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Test Usr Sel" id="gxx-CR-VkD">
-                            <connections>
-                                <action selector="testUserBtn:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="UsrSel" id="gxx-CR-VkD">
+                                <connections>
+                                    <action selector="testUserBtn:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="refreshDat" id="SQK-XX-KeY">
+                                <connections>
+                                    <action selector="testRefreshData:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <segue destination="PZ2-nc-91w" kind="show" id="rtk-my-Ukz"/>

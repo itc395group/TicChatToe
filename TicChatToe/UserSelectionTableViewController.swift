@@ -12,9 +12,10 @@ import Parse
 class UserSelectionTableViewController: UITableViewController {
     
     // Class Variables
-    let expireTime = 10.0
+    let expireTime = 60.0
     var onlineUsers: [PFObject] = [];
     var queryLimit = 5
+    var selectedUser = "hb1"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,16 +31,17 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Finds if object is expired or not
     func isExpired(obj: PFObject) -> Bool {
-        
-        if ((obj["updatedAt"]) == nil){
-            print("EXPIRED")
+        if ((obj.createdAt) == nil){
+            //print("EXPIRED")
+            garbageObj(obj: obj)
             return true;
         }
         
-        let storedTime = obj["updatedAt"] as! Date;
+        let storedTime = obj.createdAt as! Date;
         
         if (storedTime >= Date().addingTimeInterval(expireTime)){
-            print("EXPIRED")
+            //print("EXPIRED")
+            garbageObj(obj: obj)
             return true
         }
         else {
@@ -48,14 +50,32 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
+    // Removed a specified object
+    func garbageObj(obj: PFObject){
+        if (isExpired(obj: obj) == true){
+            
+            obj.deleteInBackground(block: { (sucess, error) in
+                if (sucess == true){
+                    print("Delete: TRUE")
+                }
+                else {
+                    print("Delete: FALSE")
+                }
+            })
+        }
+    }
+    
+    //-------------------- Parse Related --------------------//
+    
+    // Refresh OnlineUserList
     func getOnlineUserList(){
         print("Get Parse Data")
         
         let query = PFQuery(className:"Users")
         query.limit = queryLimit;
         query.includeKey("user")
-        query.whereKey("updatedAt", greaterThan: Date().addingTimeInterval(expireTime))
-        query.order(byDescending: "updatedAt")
+        //query.whereKey("createdAt", lessThan: Date().addingTimeInterval(expireTime))
+        query.order(byDescending: "createdAt")
         
         query.findObjectsInBackground { (messages, error) in
             if let error = error {
@@ -71,58 +91,79 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
+    //-------------------- Actions --------------------//
     
+    // Tries to find selected user
     @IBAction func testUserBtn(_ sender: Any) {
-        getOnlineUserList()
-        
         for index in 0..<onlineUsers.count {
             let singleUser = self.onlineUsers[index];
-            let usr = singleUser["user"] as! PFUser
+            let usr = (singleUser["user"] as! PFUser).username
             if (isExpired(obj: singleUser) == true) {
-                print("expired user: \(usr.username ?? "")")
-                
+                //print("expired user: \(usr.username ?? "")")
             }
             else{
-                print("online user: \(usr.username ?? "")")
+                if (usr == selectedUser){
+                    print("online user: \(selectedUser)")
+                }
             }
         }
-        
     }
     
+    // This will show other users that you are online
     @IBAction func testSetOnlineBtn(_ sender: Any) {
         // This snippit will reset the "dead man's switch"
-        var objID = "";
+        //var objID = "";
+        //var upd = Date();
         let countOfMessages = self.onlineUsers.count;
-        print()
+        print("countmsg: \(countOfMessages)")
+        //var singleUsrObjID = ""
         for index in 0..<countOfMessages {
             // gets a single message
             let singleUser = self.onlineUsers[index];
+            //print(singleUser)
             let usr = (singleUser["user"] as? PFUser)
-            let id = (singleUser["objectId"])
-            let upd = (singleUser["updatedAt"] as! Date)
-            
-            if(usr == PFUser.current()){
-                objID = id as! String;
-                print("Date Found Before Update: \(upd)")
-            }
-        }
-        
-        let query = PFQuery(className:"Users")
-        query.limit = queryLimit;
-        query.includeKey("user")
-        query.whereKey("updatedAt", greaterThan: Date().addingTimeInterval(expireTime))
-        query.order(byDescending: "updatedAt")
-        
-        query.getObjectInBackground(withId: objID) { (obj, error) in
-            if error != nil {
-                print(error as Any)
+//            if (singleUser["objectId"] != nil){
+//            singleUsrObjID = (singleUser["objectId"]) as! String
+//            upd = (singleUser.createdAt as! Date)
+//            }
+            //print("current: \(PFUser.current())")
+            //print("usr: \(usr)")
+            if(usr == PFUser.current() && isExpired(obj: singleUser) == false){
+                print("Found unexpires self user obj! testsetbtnonline")
             }
             else{
-                // Updates UpdatedAt
-                obj?.saveInBackground()
+                let singleUser = PFObject(className: "Users");
+                singleUser["user"] = PFUser.current();
+                
+                singleUser.saveInBackground { (success, error) in
+                    if success {
+                        print("Online Status Updated")
+                    } else if let error = error {
+                        print("Problem saving message: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+        if (countOfMessages == 0){
+            let singleUser = PFObject(className: "Users");
+            singleUser["user"] = PFUser.current();
+            
+            singleUser.saveInBackground { (success, error) in
+                if success {
+                    print("Online Status Updated")
+                } else if let error = error {
+                    print("Problem saving message: \(error.localizedDescription)")
+                }
             }
         }
     }
+    
+    @IBAction func testRefreshData(_ sender: Any) {
+        getOnlineUserList()
+    }
+    
+    
+    //-------------------- Table View Related --------------------//
     
     // MARK: - Table view data source
 
