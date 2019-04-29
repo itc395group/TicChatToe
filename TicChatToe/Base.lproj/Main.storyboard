@@ -175,26 +175,34 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
-                        <barButtonItem key="leftBarButtonItem" title="SetOnl" id="gup-ap-7Eb">
-                            <connections>
-                                <action selector="SetUserStatusOnline:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
-                            </connections>
-                        </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem title="UsrSel" id="gxx-CR-VkD">
+                        <leftBarButtonItems>
+                            <barButtonItem title="SetOnl" id="gup-ap-7Eb">
                                 <connections>
-                                    <action selector="FindSelectedUser:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
+                                    <action selector="SetUserStatusOnlineBTN:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="auto" id="3Ng-x1-cVD">
+                                <connections>
+                                    <action selector="autoTester:" destination="LgK-MQ-Dfg" id="wmQ-y7-YTO"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem title="ConUsr" id="gxx-CR-VkD">
+                                <connections>
+                                    <action selector="FindSelectedUserBTN:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="refreshDat" id="SQK-XX-KeY">
                                 <connections>
-                                    <action selector="RefreshParseData:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
+                                    <action selector="RefreshParseDataBTN:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <segue destination="PZ2-nc-91w" kind="show" id="rtk-my-Ukz"/>
+                        <outlet property="tableView" destination="mb4-ta-vJw" id="3wO-CB-SdG"/>
+                        <segue destination="PZ2-nc-91w" kind="show" identifier="gameSegue" id="rtk-my-Ukz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RZ8-zW-CBp" userLabel="First Responder" sceneMemberID="firstResponder"/>

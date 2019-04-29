@@ -13,11 +13,12 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Class Variables
     let debugInfo: Bool = false
-    let expireTime = 10.0
+    let expireTime = 20.0
     var onlineUsers: [PFObject] = [];
+    var verification: [PFObject] = [];
     var queryLimit = 15
-    var selectedUser = "hb1"
-
+    var selectedUser = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,6 +27,12 @@ class UserSelectionTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        if (PFUser.current()?.username == "hb1"){
+            selectedUser = "hb2"
+        }
+        if (PFUser.current()?.username == "hb2"){
+            selectedUser = "hb1"
+        }
     }
     
     //-------------------- Utilities --------------------//
@@ -56,6 +63,33 @@ class UserSelectionTableViewController: UITableViewController {
         else {
             if (debugInfo){print("NOT-EXPIRED")}
             return false
+        }
+    }
+    
+    // Used for populating the tableview without disrupting it's own process (aka, it doesn't remove anything during the check)
+    func canDisplay(obj: PFObject) -> Bool {
+        if ((obj.createdAt) == nil){
+            print("EXPIRED")
+            return false;
+        }
+        
+        let storedTime = obj.createdAt as! Date;
+        let expTime = storedTime.addingTimeInterval(expireTime);
+        let nowTime = Date();
+        
+        if (debugInfo){
+            print("now time: \(nowTime)")
+            print("obj time: \(storedTime)")
+            print("exp time: \(expTime)")
+        }
+        
+        if (expTime < nowTime){
+            if (debugInfo){print("EXPIRED")}
+            return false
+        }
+        else {
+            if (debugInfo){print("NOT-EXPIRED")}
+            return true
         }
     }
     
@@ -98,10 +132,37 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
+    // Refresh OnlineUserList
+    func getVerificationList(){
+        print("Get Parse Data")
+        
+        let query = PFQuery(className:"ConnectionData")
+        query.limit = queryLimit;
+        query.includeKey("user")
+        query.order(byDescending: "createdAt")
+        
+        query.findObjectsInBackground { (messages, error) in
+            if let error = error {
+                // Log details of the failure
+                print(error.localizedDescription)
+            } else if let message = messages {
+                // The find succeeded.
+                self.verification = message
+                print("Successfully retrieved \(message.count) posts.")
+            }
+            print ("reload tableView")
+            //self.tableView.reloadData();
+        }
+    }
+    
     //-------------------- Actions --------------------//
     
+    // Button to call Find Selected Users
+    @IBAction func FindSelectedUserBTN(_ sender: Any) {
+        FindSelectedUsers()
+    }
     // Tries to find selected user using variable "selectedUser"
-    @IBAction func FindSelectedUser(_ sender: Any) {
+    func FindSelectedUsers(){
         for index in 0..<onlineUsers.count {
             let singleUser = self.onlineUsers[index];
             let usr = (singleUser["user"] as! PFUser).username
@@ -111,6 +172,7 @@ class UserSelectionTableViewController: UITableViewController {
             else{
                 if (usr == selectedUser){
                     print("Found Selected User Online: \(selectedUser)")
+                    sendVerification(str: "first_send")
                 }
             }
         }
@@ -119,11 +181,14 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
+    // Button to call Set User Status Online
+    @IBAction func SetUserStatusOnlineBTN(_ sender: Any) {
+        SetUserStatusOnline()
+    }
     // This will show other users that you are online
-    @IBAction func SetUserStatusOnline(_ sender: Any) {
-        let countOfMessages = self.onlineUsers.count;
-        for index in 0..<countOfMessages {
-
+    func SetUserStatusOnline(){
+        for index in 0..<self.onlineUsers.count {
+            
             let singleUser = self.onlineUsers[index];
             let usr = (singleUser["user"] as? PFUser)
             if(usr == PFUser.current() && isExpired(obj: singleUser) == false){
@@ -144,7 +209,7 @@ class UserSelectionTableViewController: UITableViewController {
             }
         }
         // If there are no statuses to trigger for loop, set status
-        if (countOfMessages == 0){
+        if (self.onlineUsers.count == 0){
             let singleUser = PFObject(className: "Users");
             singleUser["user"] = PFUser.current();
             
@@ -158,11 +223,94 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func RefreshParseData(_ sender: Any) {
+    // Button to call Refresh Parse Data
+    @IBAction func RefreshParseDataBTN(_ sender: Any) {
+            RefreshParseData()
+    }
+    func RefreshParseData(){
         // refresh parse data
         getOnlineUserList()
+        getVerificationList()
+        listenForVerification()
     }
     
+    @IBAction func autoTester(_ sender: Any) {
+        atemptToConnect()
+    }
+    
+    //-------------------- Verification Related --------------------//
+    
+    func atemptToConnect(){
+            self.SetUserStatusOnline()
+            self.getOnlineUserList()
+            self.getVerificationList()
+            self.FindSelectedUsers()
+            self.getOnlineUserList()
+            self.getVerificationList()
+            self.listenForVerification()
+    }
+    
+    // Listen for Verification
+    func listenForVerification(){
+        getVerificationList()
+        
+        for index in 0..<self.verification.count {
+            
+            let singleUser = self.verification[index];
+            let usr = (singleUser["user"] as? PFUser)
+            let atm = (singleUser["atemptingToConnectTo"] as! String)
+            let hrd = singleUser["atemptHeard"] as! Bool
+            // Someone is trying to connect to me.
+            if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == false){
+                print("\(usr?.username ?? "") is Atempting to Connect.")
+                selectedUser = usr!.username!
+                sendVerification(str: "send_heard")
+                break
+            }
+            else if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == true){
+                // Segue to the game screen
+                print("Verification Heard!")
+                print("SEGUE TO GAME SCREEN!")
+                self.performSegue(withIdentifier: "gameSegue", sender: nil)
+            }
+        }
+        if (self.verification.count == 0){
+            if(debugInfo){print("No Verification Data Found!")}
+        }
+    }
+    
+    
+    // Sends Verification
+    func sendVerification(str: String){
+        if (str == "first_send"){
+            let singleUser = PFObject(className: "ConnectionData");
+            singleUser["user"] = PFUser.current();
+            singleUser["atemptingToConnectTo"] = selectedUser;
+            singleUser["atemptHeard"] = false;
+            
+            singleUser.saveInBackground { (success, error) in
+                if success {
+                    print("First Verification Saved!")
+                } else if let error = error {
+                    print("Problem saving message: \(error.localizedDescription)")
+                }
+            }
+        }
+        else if (str == "send_heard"){
+            let singleUser = PFObject(className: "ConnectionData");
+            singleUser["user"] = PFUser.current();
+            singleUser["atemptingToConnectTo"] = selectedUser;
+            singleUser["atemptHeard"] = true;
+            
+            singleUser.saveInBackground { (success, error) in
+                if success {
+                    print("Atempt Heard Saved!")
+                } else if let error = error {
+                    print("Problem saving message: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
     
     //-------------------- Table View Related --------------------//
     
