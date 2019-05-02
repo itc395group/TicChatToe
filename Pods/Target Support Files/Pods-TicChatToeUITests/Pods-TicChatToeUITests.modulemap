@@ -1,0 +1,6 @@
+framework module Pods_TicChatToeUITests {
+  umbrella header "Pods-TicChatToeUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
