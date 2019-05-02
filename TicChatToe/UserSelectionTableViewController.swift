@@ -16,7 +16,7 @@ class UserSelectionTableViewController: UITableViewController {
     let expireTime = 20.0
     var onlineUsers: [PFObject] = [];
     var verification: [PFObject] = [];
-    var queryLimit = 15
+    var queryLimit = 25
     var selectedUser = ""
     
     override func viewDidLoad() {
@@ -100,7 +100,7 @@ class UserSelectionTableViewController: UITableViewController {
         obj.deleteInBackground(block: { (sucess, error) in
             if (sucess == true){
                 print("Delete: TRUE")
-                self.getOnlineUserList()
+                //self.getOnlineUserList()
             }
             else {
                 print("Delete: FALSE")
@@ -195,7 +195,7 @@ class UserSelectionTableViewController: UITableViewController {
             if(usr == PFUser.current() && isExpired(obj: singleUser) == false){
                 print("Found Self Unexpired")
             }
-            else{
+            else if(self.onlineUsers.count < 1){
                 // If status has expired, renew
                 let singleUser = PFObject(className: "Users");
                 singleUser["user"] = PFUser.current();
@@ -232,7 +232,6 @@ class UserSelectionTableViewController: UITableViewController {
     func RefreshParseData(){
         // refresh parse data
         getOnlineUserList()
-        getVerificationList()
         listenForVerification()
     }
     
@@ -246,12 +245,8 @@ class UserSelectionTableViewController: UITableViewController {
     // A testing function that will be replaced once we have a timer function
     func atemptToConnect(){
         self.SetUserStatusOnline()
-        self.getOnlineUserList()
-        self.getVerificationList()
+        self.RefreshParseData()
         self.FindSelectedUsers()
-        self.getOnlineUserList()
-        self.getVerificationList()
-        self.listenForVerification()
     }
     
     // Listen for Verification
@@ -379,14 +374,14 @@ class UserSelectionTableViewController: UITableViewController {
     
     
      // MARK: - Navigation
-     
+    
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
         
         // Create a new variable to store the instance of PlayerTableViewController
-        let destinationVC = segue.destination as! TicTacToeTableViewController
+        let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
      }
     

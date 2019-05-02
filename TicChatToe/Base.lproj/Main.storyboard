@@ -209,10 +209,10 @@
             </objects>
             <point key="canvasLocation" x="1866.6666666666667" y="120.53571428571428"/>
         </scene>
-        <!--Tic Tac Toe Table View Controller-->
+        <!--Tic Tac Toe View Controller-->
         <scene sceneID="ASi-KS-BBS">
             <objects>
-                <viewController id="PZ2-nc-91w" customClass="TicTacToeTableViewController" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="PZ2-nc-91w" customClass="TicTacToeViewController" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pv9-mY-3cK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -331,7 +331,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="116" id="Vmk-TV-ll7">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="TicTacToeTableViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TicTacToeTableViewCell" rowHeight="116" id="Vmk-TV-ll7">
                                         <rect key="frame" x="0.0" y="28" width="414" height="116"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Vmk-TV-ll7" id="EWj-sq-O4D">
@@ -374,6 +374,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="V40-at-IVV"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="b8L-jV-Iyb" id="zTL-bf-S8n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2K-ca-VwI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
