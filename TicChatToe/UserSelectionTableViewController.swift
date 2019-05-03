@@ -18,6 +18,8 @@ class UserSelectionTableViewController: UITableViewController {
     var verification: [PFObject] = [];
     var queryLimit = 25
     var selectedUser = ""
+    var auto: Int = 0;
+    var segueTriggered: Bool = false;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +32,7 @@ class UserSelectionTableViewController: UITableViewController {
         
         // Used for testing, acts as if a user pushed the connect button to those users
         if (PFUser.current()?.username == "hb1"){
-            selectedUser = "hb2"
+            selectedUser = "hb4"
         }
         if (PFUser.current()?.username == "hb2"){
             selectedUser = "hb1"
@@ -137,6 +139,10 @@ class UserSelectionTableViewController: UITableViewController {
     func getVerificationList(){
         print("Get Parse Data")
         
+        for index in 0..<verification.count {
+            isExpired(obj: verification[index])
+        }
+        
         let query = PFQuery(className:"ConnectionData")
         query.limit = queryLimit;
         query.includeKey("user")
@@ -231,8 +237,10 @@ class UserSelectionTableViewController: UITableViewController {
     // Does a combined refresh and listen
     func RefreshParseData(){
         // refresh parse data
+        if(segueTriggered == false){
         getOnlineUserList()
         listenForVerification()
+        }
     }
     
     // Used for testing, doesn't work super well, but keeping it for testing anyhow.
@@ -244,9 +252,23 @@ class UserSelectionTableViewController: UITableViewController {
     
     // A testing function that will be replaced once we have a timer function
     func atemptToConnect(){
-        self.SetUserStatusOnline()
-        self.RefreshParseData()
-        self.FindSelectedUsers()
+        if (auto == 0){
+            // Set User Status Online, then wait a while before do again
+            self.SetUserStatusOnline()
+        }
+        else if (auto == 1){
+            // Refresh Parse Data
+            self.RefreshParseData()
+        }
+        else if (auto == 2){
+            // Initiate connection to user
+            self.FindSelectedUsers()
+        }
+        else if (auto > 2 && auto < 20){
+            // Then refresh like 20 times before start again.
+            self.RefreshParseData()
+        }
+        auto = auto + 1;
     }
     
     // Listen for Verification
@@ -254,7 +276,7 @@ class UserSelectionTableViewController: UITableViewController {
         getVerificationList()
         
         for index in 0..<self.verification.count {
-            
+            if (segueTriggered == false){
             let singleUser = self.verification[index];
             let usr = (singleUser["user"] as? PFUser)
             let atm = (singleUser["atemptingToConnectTo"] as! String)
@@ -270,10 +292,17 @@ class UserSelectionTableViewController: UITableViewController {
                 // Segue to the game screen
                 print("Verification Heard!")
                 print("SEGUE TO GAME SCREEN!")
+                
+                for index in 0...15 {
+                    sendVerification(str: "send_heard")
+                }
+                
                 self.performSegue(withIdentifier: "gameSegue", sender: nil)
+                break
+            }
             }
         }
-        if (self.verification.count == 0){
+        if (self.verification.count == 0 && segueTriggered == false){
             if(debugInfo){print("No Verification Data Found!")}
         }
     }
