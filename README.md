@@ -28,15 +28,18 @@ Group Project - README Template
 
 **Required Must-have Stories**
 
-* -Login Func
-* -Logout Func
-* -UI
-* -Have Online User List
-* -Tic Tac Toe
-* -Tic Tac Toe Data Stuff
-* -Establish Connection Between Users
-* -Function that runs on timer
+* -[X] Login Func
+* -[ ] Logout Func
+* -[X] UI
+* -[ ] Have Online User List
+* -[ ] Tic Tac Toe
+* -[ ] Tic Tac Toe Data Stuff
+* -[X] Establish Connection Between Users
+* -[ ] Function that runs on timer
 * ...
+
+The below gif demos the login, UI, and Data connection between users.
+<img src='https://i.imgur.com/GWuhauu.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 **Optional Nice-to-have Stories**
 
@@ -97,7 +100,7 @@ Group Project - README Template
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
    | objectId      | String   | unique id for the user post (default field) |
-   | puser        | Pointer to User| stores the PFUser data |
+   | user          | Pointer to User| stores the PFUser data |
    | profileImage (optional)  | File     | users profile image |
    | createdAt     | DateTime | date when post is created (default field) |
    | updatedAt     | DateTime | date when post is last updated (default field) |
