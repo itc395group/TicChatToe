@@ -13,6 +13,17 @@ class TicTacToeTableViewController: UITableViewController {
     // Class Variables
     var connectedUser: String
     
+    @IBOutlet weak var topLeft: UIButton!
+    @IBOutlet weak var topMiddle: UIButton!
+    @IBOutlet weak var topRight: UIButton!
+    @IBOutlet weak var middleLeft: UIButton!
+    @IBOutlet weak var middleMiddle: UIButton!
+    @IBOutlet weak var middleRight: UIButton!
+    @IBOutlet weak var bottomLeft: UIButton!
+    @IBOutlet weak var bottomMiddle: UIButton!
+    @IBOutlet weak var bottomRight: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

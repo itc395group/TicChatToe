@@ -19,6 +19,10 @@ class UserSelectionTableViewController: UITableViewController {
     var queryLimit = 15
     var selectedUser = ""
     
+    //outlets
+    
+    @IBOutlet weak var connectButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -321,6 +325,13 @@ class UserSelectionTableViewController: UITableViewController {
     //-------------------- Table View Related --------------------//
     
     // MARK: - Table view data source
+    
+    @IBAction func onConnect(_ sender: Any) {
+        selectedUser = (PFUser.current()?.username)!
+        atemptToConnect()
+        
+        
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -127,6 +127,9 @@
                                             <state key="normal" title="Connect to Player">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="onConnect:" destination="LgK-MQ-Dfg" eventType="touchUpInside" id="yOF-gY-xp5"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Online: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xvg-OY-gVW">
                                             <rect key="frame" x="20" y="42" width="80" height="21"/>
@@ -201,6 +204,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="connectButton" destination="SUp-Rv-YaD" id="CXD-uT-tOe"/>
                         <outlet property="tableView" destination="mb4-ta-vJw" id="3wO-CB-SdG"/>
                         <segue destination="PZ2-nc-91w" kind="show" identifier="gameSegue" id="rtk-my-Ukz"/>
                     </connections>
@@ -374,6 +378,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="V40-at-IVV"/>
                     </view>
+                    <connections>
+                        <outlet property="bottomLeft" destination="GoB-di-sMl" id="Hfp-h4-EnC"/>
+                        <outlet property="bottomMiddle" destination="CUA-H1-4Bo" id="fvT-l8-Ktp"/>
+                        <outlet property="bottomRight" destination="UJD-g4-W8a" id="RTA-7D-Fgu"/>
+                        <outlet property="middleLeft" destination="vcU-6n-sxN" id="9Qd-uA-a2I"/>
+                        <outlet property="middleMiddle" destination="9IV-WV-kSZ" id="Iar-Xe-cCz"/>
+                        <outlet property="middleRight" destination="Jzt-ni-i3w" id="Ndp-kP-gkp"/>
+                        <outlet property="topLeft" destination="UAS-XO-5Hl" id="cF1-f5-5wq"/>
+                        <outlet property="topMiddle" destination="CZ5-7g-vPv" id="z1E-Qg-waa"/>
+                        <outlet property="topRight" destination="abz-Ix-YAS" id="Z9U-Zw-S38"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2K-ca-VwI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
