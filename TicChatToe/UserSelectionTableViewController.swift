@@ -16,8 +16,14 @@ class UserSelectionTableViewController: UITableViewController {
     let expireTime = 20.0
     var onlineUsers: [PFObject] = [];
     var verification: [PFObject] = [];
-    var queryLimit = 15
+    var queryLimit = 25
     var selectedUser = ""
+    var auto: Int = 0;
+    var segueTriggered: Bool = false;
+    var runTimer: Bool = false;
+    var timerCount: Int = 0;
+    var timerMax: Int = 3;
+    var atemptingToConnect: Bool = false;
     
     //outlets
     
@@ -34,11 +40,14 @@ class UserSelectionTableViewController: UITableViewController {
         
         // Used for testing, acts as if a user pushed the connect button to those users
         if (PFUser.current()?.username == "hb1"){
-            selectedUser = "hb2"
+            selectedUser = "hb4"
         }
         if (PFUser.current()?.username == "hb2"){
             selectedUser = "hb1"
         }
+        
+        // Sets getChatMessage to retrieve messages every x seconds
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
     }
     
     //-------------------- Utilities --------------------//
@@ -101,15 +110,50 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Removed a specified object
     func garbageObj(obj: PFObject){
+        // Freeze timer while removing object
+        let realTimerState = runTimer;
+        runTimer = false;
+        
         obj.deleteInBackground(block: { (sucess, error) in
             if (sucess == true){
                 print("Delete: TRUE")
-                self.getOnlineUserList()
+                //self.getOnlineUserList()
             }
             else {
                 print("Delete: FALSE")
             }
         })
+        
+        // set timer to previous state
+        runTimer = realTimerState
+    }
+    
+    //-------------------- Main Timer Function --------------------//
+    
+    // The logic that will run on a timer
+    @objc func timedFunc() {
+        // forced timer off when segue occurs
+        if (segueTriggered == true){
+            runTimer = false;
+        }
+        
+        // Run when timer is "active"
+        if (runTimer == true){
+            print("in active timed func")
+            // When looking for user, run connection process every second
+            if (atemptingToConnect == true){
+                atemptToConnect();
+            }
+            
+            // Refresh player list every 3 seconds
+            if (timerCount >= timerMax && atemptingToConnect == false){
+                RefreshParseData()
+            }
+            
+            // Used to create actions on a delay
+            if (timerCount >= timerMax){timerCount = 0}
+            timerCount = timerCount + 1;
+        }
     }
     
     //-------------------- Parse Get Functions --------------------//
@@ -140,6 +184,10 @@ class UserSelectionTableViewController: UITableViewController {
     // Refresh Verification List
     func getVerificationList(){
         print("Get Parse Data")
+        
+        for index in 0..<verification.count {
+            isExpired(obj: verification[index])
+        }
         
         let query = PFQuery(className:"ConnectionData")
         query.limit = queryLimit;
@@ -199,7 +247,7 @@ class UserSelectionTableViewController: UITableViewController {
             if(usr == PFUser.current() && isExpired(obj: singleUser) == false){
                 print("Found Self Unexpired")
             }
-            else{
+            else if(self.onlineUsers.count < 1){
                 // If status has expired, renew
                 let singleUser = PFObject(className: "Users");
                 singleUser["user"] = PFUser.current();
@@ -235,27 +283,39 @@ class UserSelectionTableViewController: UITableViewController {
     // Does a combined refresh and listen
     func RefreshParseData(){
         // refresh parse data
+        if(segueTriggered == false){
         getOnlineUserList()
-        getVerificationList()
         listenForVerification()
+        }
     }
     
     // Used for testing, doesn't work super well, but keeping it for testing anyhow.
     @IBAction func autoTester(_ sender: Any) {
-        atemptToConnect()
+        runTimer = true;
+        atemptingToConnect = true;
     }
     
     //-------------------- Verification Related --------------------//
     
     // A testing function that will be replaced once we have a timer function
     func atemptToConnect(){
-        self.SetUserStatusOnline()
-        self.getOnlineUserList()
-        self.getVerificationList()
-        self.FindSelectedUsers()
-        self.getOnlineUserList()
-        self.getVerificationList()
-        self.listenForVerification()
+        if (auto == 0){
+            // Set User Status Online, then wait a while before do again
+            self.SetUserStatusOnline()
+        }
+        else if (auto == 1){
+            // Refresh Parse Data
+            self.RefreshParseData()
+        }
+        else if (auto == 2){
+            // Initiate connection to user
+            self.FindSelectedUsers()
+        }
+        else if (auto > 2 && auto < 20){
+            // Then refresh like 20 times before start again.
+            self.RefreshParseData()
+        }
+        auto = auto + 1;
     }
     
     // Listen for Verification
@@ -263,7 +323,7 @@ class UserSelectionTableViewController: UITableViewController {
         getVerificationList()
         
         for index in 0..<self.verification.count {
-            
+            if (segueTriggered == false){
             let singleUser = self.verification[index];
             let usr = (singleUser["user"] as? PFUser)
             let atm = (singleUser["atemptingToConnectTo"] as! String)
@@ -277,12 +337,20 @@ class UserSelectionTableViewController: UITableViewController {
             }
             else if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == true){
                 // Segue to the game screen
+                segueTriggered = true
                 print("Verification Heard!")
                 print("SEGUE TO GAME SCREEN!")
+                
+                for index in 0...15 {
+                    sendVerification(str: "send_heard")
+                }
+                
                 self.performSegue(withIdentifier: "gameSegue", sender: nil)
+                break
+            }
             }
         }
-        if (self.verification.count == 0){
+        if (self.verification.count == 0 && segueTriggered == false){
             if(debugInfo){print("No Verification Data Found!")}
         }
     }
@@ -390,14 +458,14 @@ class UserSelectionTableViewController: UITableViewController {
     
     
      // MARK: - Navigation
-     
+    
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
         
         // Create a new variable to store the instance of PlayerTableViewController
-        let destinationVC = segue.destination as! TicTacToeTableViewController
+        let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
      }
     
