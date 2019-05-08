@@ -16,6 +16,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     let expireTime = 30.0;
     var currentTurnNum = 0;
     let dataExpireTime = 60.0;
+    var tttRunTimer: Bool = false;
+    var tttTimerCount: Int = 0;
+    var tttTimerMax: Int = 3;
     
     // Master Message Object
     var chatMessages: [PFObject] = [];
@@ -49,6 +52,32 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    //-------------------- Main Timer Function --------------------//
+    
+    // The logic that will run on a timer
+    @objc func timedFunc() {
+        // Run when timer is "active"
+        if (tttRunTimer == true){
+            print("in active timed func")
+            
+            // Refresh player list at begining of count
+            if (tttTimerCount <= 0){
+                getTicTacToeData()
+            }
+            
+            // Listen for data at end of count
+            if (tttTimerCount >= tttTimerMax){
+                listenForValidMove()
+            }
+            
+            // Used to create actions on a delay
+            if (tttTimerCount >= tttTimerMax){tttTimerCount = 0}
+            tttTimerCount = tttTimerCount + 1;
+        }
+    }
+    
+    //-------------------- Chat Functionality --------------------//
     
     // Gets Chat Messages
     @objc func getChatMessages(){
@@ -85,6 +114,8 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
+    
+    //-------------------- Table View Related --------------------//
     
     // Sets Table Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -211,8 +242,6 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     }
     
     func listenForValidMove(){
-        getTicTacToeData()
-        
         // [row][col]
         //   1 2 3
         // 1 X X X
