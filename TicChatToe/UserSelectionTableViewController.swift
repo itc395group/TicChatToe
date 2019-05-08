@@ -20,6 +20,9 @@ class UserSelectionTableViewController: UITableViewController {
     var selectedUser = ""
     var auto: Int = 0;
     var segueTriggered: Bool = false;
+    var runTimer: Bool = false;
+    var timerCount: Int = 0;
+    var timerMax: Int = 5;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +40,9 @@ class UserSelectionTableViewController: UITableViewController {
         if (PFUser.current()?.username == "hb2"){
             selectedUser = "hb1"
         }
+        
+        // Sets getChatMessage to retrieve messages every x seconds
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
     }
     
     //-------------------- Utilities --------------------//
@@ -99,15 +105,46 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Removed a specified object
     func garbageObj(obj: PFObject){
+        // Freeze timer while removing object
+        let realTimerState = runTimer;
+        runTimer = false;
+        
         obj.deleteInBackground(block: { (sucess, error) in
             if (sucess == true){
                 print("Delete: TRUE")
-                //self.getOnlineUserList()
+                self.getOnlineUserList()
             }
             else {
                 print("Delete: FALSE")
             }
         })
+        
+        // set timer to previous state
+        runTimer = realTimerState
+    }
+    
+    //-------------------- Main Timer Function --------------------//
+    
+    // The logic that will run on a timer
+    @objc func timedFunc() {
+        if (segueTriggered == true){
+            runTimer = false;
+        }
+        
+        // Run everytime
+        if (runTimer == true){
+            print("in active timed func")
+            atemptToConnect();
+            
+            // Runs when timer reaches count
+            if (timerCount >= timerMax){
+                
+            }
+            
+            // Used to create actions on a delay
+            if (timerCount >= timerMax){timerCount = 0}
+            timerCount = timerCount + 1;
+        }
     }
     
     //-------------------- Parse Get Functions --------------------//
@@ -245,7 +282,7 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Used for testing, doesn't work super well, but keeping it for testing anyhow.
     @IBAction func autoTester(_ sender: Any) {
-        atemptToConnect()
+        runTimer = true;
     }
     
     //-------------------- Verification Related --------------------//
@@ -290,6 +327,7 @@ class UserSelectionTableViewController: UITableViewController {
             }
             else if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == true){
                 // Segue to the game screen
+                segueTriggered = true
                 print("Verification Heard!")
                 print("SEGUE TO GAME SCREEN!")
                 
