@@ -22,7 +22,8 @@ class UserSelectionTableViewController: UITableViewController {
     var segueTriggered: Bool = false;
     var runTimer: Bool = false;
     var timerCount: Int = 0;
-    var timerMax: Int = 5;
+    var timerMax: Int = 3;
+    var atemptingToConnect: Bool = false;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +113,7 @@ class UserSelectionTableViewController: UITableViewController {
         obj.deleteInBackground(block: { (sucess, error) in
             if (sucess == true){
                 print("Delete: TRUE")
-                self.getOnlineUserList()
+                //self.getOnlineUserList()
             }
             else {
                 print("Delete: FALSE")
@@ -127,18 +128,22 @@ class UserSelectionTableViewController: UITableViewController {
     
     // The logic that will run on a timer
     @objc func timedFunc() {
+        // forced timer off when segue occurs
         if (segueTriggered == true){
             runTimer = false;
         }
         
-        // Run everytime
+        // Run when timer is "active"
         if (runTimer == true){
             print("in active timed func")
-            atemptToConnect();
+            // When looking for user, run connection process every second
+            if (atemptingToConnect == true){
+                atemptToConnect();
+            }
             
-            // Runs when timer reaches count
-            if (timerCount >= timerMax){
-                
+            // Refresh player list every 3 seconds
+            if (timerCount >= timerMax && atemptingToConnect == false){
+                RefreshParseData()
             }
             
             // Used to create actions on a delay
@@ -283,6 +288,7 @@ class UserSelectionTableViewController: UITableViewController {
     // Used for testing, doesn't work super well, but keeping it for testing anyhow.
     @IBAction func autoTester(_ sender: Any) {
         runTimer = true;
+        atemptingToConnect = true;
     }
     
     //-------------------- Verification Related --------------------//
