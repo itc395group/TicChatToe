@@ -13,7 +13,7 @@
         <!--LoginVCFORTESTINGONLY-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginVC_FOR_TESTING_ONLY" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginController" id="BYZ-38-t0r" customClass="LoginVC_FOR_TESTING_ONLY" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -181,9 +181,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
                         <leftBarButtonItems>
-                            <barButtonItem title="SetOnl" id="gup-ap-7Eb">
+                            <barButtonItem title="Logout" id="gup-ap-7Eb">
                                 <connections>
-                                    <action selector="SetUserStatusOnlineBTN:" destination="LgK-MQ-Dfg" id="Qno-aq-1RK"/>
+                                    <action selector="logoutButton:" destination="LgK-MQ-Dfg" id="871-Ck-h19"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="auto" id="3Ng-x1-cVD">

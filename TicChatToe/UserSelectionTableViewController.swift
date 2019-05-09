@@ -453,6 +453,26 @@ class UserSelectionTableViewController: UITableViewController {
         
      
         return cell
+    
+    @IBAction func logoutButton(_ sender: Any) {
+        PFUser.logOut()
+        
+        let main = UIStoryboard(name: "Main", bundle: nil)
+        let loginViewController = main.instantiateViewController(withIdentifier: "LoginController")
+        
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        
+        delegate.window?.rootViewController = loginViewController
+    }
+    
+    
+    /*
+     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+     
+     // Configure the cell...
+     
+     return cell
      }
  
     

@@ -14,10 +14,15 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     // Class Variables
     var connectedUser: String = ""
     let expireTime = 30.0;
-    var activePlayer = 1 //keep track of which player is which. 1 will be X's
+    var currentTurnNum = 0;
+    let dataExpireTime = 60.0;
+    var tttRunTimer: Bool = false;
+    var tttTimerCount: Int = 0;
+    var tttTimerMax: Int = 3;
     
     // Master Message Object
     var chatMessages: [PFObject] = [];
+    var tttData: [PFObject] = [];
     
     //Outlets
     @IBOutlet weak var chatMessageField: UITextField!
@@ -71,6 +76,32 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    //-------------------- Main Timer Function --------------------//
+    
+    // The logic that will run on a timer
+    @objc func timedFunc() {
+        // Run when timer is "active"
+        if (tttRunTimer == true){
+            print("in active timed func")
+            
+            // Refresh player list at begining of count
+            if (tttTimerCount <= 0){
+                getTicTacToeData()
+            }
+            
+            // Listen for data at end of count
+            if (tttTimerCount >= tttTimerMax){
+                listenForValidMove()
+            }
+            
+            // Used to create actions on a delay
+            if (tttTimerCount >= tttTimerMax){tttTimerCount = 0}
+            tttTimerCount = tttTimerCount + 1;
+        }
+    }
+    
+    //-------------------- Chat Functionality --------------------//
+    
     // Gets Chat Messages
     @objc func getChatMessages(){
         let query = PFQuery(className:"Messages")
@@ -106,6 +137,8 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
+    
+    //-------------------- Table View Related --------------------//
     
     // Sets Table Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -158,6 +191,28 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    // Finds if object is expired or not, and if it is it will call the garbage collector.
+    func isDataExpired(obj: PFObject) -> Bool {
+        if ((obj.createdAt) == nil){
+            print("EXPIRED")
+            garbageObj(obj: obj)
+            return true;
+        }
+        
+        
+        let storedTime = obj.createdAt as! Date;
+        let expTime = storedTime.addingTimeInterval(dataExpireTime);
+        let nowTime = Date();
+        
+        if (expTime < nowTime){
+            garbageObj(obj: obj)
+            return true
+        }
+        else {
+            return false
+        }
+    }
+    
     // Used for populating the tableview without disrupting it's own process (aka, it doesn't remove anything during the check)
     func canDisplay(obj: PFObject) -> Bool {
         if ((obj.createdAt) == nil){
@@ -192,7 +247,65 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     
     //-------------------- Tic Tac Toe Data Handling --------------------//
     
+    func sendValidMove(symbol: String, row: Int, col: Int, turnNum: Int){
+        let data = PFObject(className: "TicTacToe");
+        data["user"] = PFUser.current();
+        data["symbol"] = symbol
+        data["row"] = row
+        data["col"] = col
+        data["turn"] = turnNum
+        data.saveInBackground { (success, error) in
+            if success {
+                print("The TicTacToe message was saved!")
+                self.chatMessageField.text = "";
+            } else if let error = error {
+                print("Problem saving message: \(error.localizedDescription)")
+            }
+        }
+    }
     
+    func listenForValidMove(){
+        // [row][col]
+        //   1 2 3
+        // 1 X X X
+        // 2 X X X
+        // 3 X X X
+        
+        for index in 0...tttData.count {
+            let singleData = tttData[index];
+            let user = singleData["user"] as! PFUser
+            let symbol = singleData["symbol"] as! String
+            let row = singleData["row"] as! Int
+            let col = singleData["col"] as! Int
+            let turn = singleData["turn"] as! Int
+            
+            if (user.username == connectedUser && turn > currentTurnNum){
+                // Send move to Tic Tac Toe Front End Logic
+                // processRecievedMove(symbol, row, col, turn)
+                garbageObj(obj: singleData)
+            }
+            // Remove old data
+            if (isExpired(obj: singleData)){}
+        }
+    }
+    
+    func getTicTacToeData(){
+        let query = PFQuery(className:"TicTacToe")
+        query.addDescendingOrder("createdAt")
+        query.limit = 20
+        query.includeKey("user")
+        
+        query.findObjectsInBackground { (messages, error) in
+            if let error = error {
+                // Log details of the failure
+                print(error.localizedDescription)
+            } else if let messages = messages {
+                // The find succeeded.
+                self.tttData = messages
+                print("Successfully retrieved TicTacToe \(messages.count) posts.")
+            }
+        }
+    }
 
     // MARK: - Table view data source
 
