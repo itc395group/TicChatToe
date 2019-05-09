@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--LoginVCFORTESTINGONLY-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LoginController" id="BYZ-38-t0r" customClass="LoginVC_FOR_TESTING_ONLY" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -175,30 +175,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Logout" id="gup-ap-7Eb">
-                                <connections>
-                                    <action selector="logoutButton:" destination="LgK-MQ-Dfg" id="871-Ck-h19"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="auto" id="3Ng-x1-cVD">
-                                <connections>
-                                    <action selector="autoTester:" destination="LgK-MQ-Dfg" id="wmQ-y7-YTO"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem title="ConUsr" id="gxx-CR-VkD">
-                                <connections>
-                                    <action selector="FindSelectedUserBTN:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="refreshDat" id="SQK-XX-KeY">
-                                <connections>
-                                    <action selector="RefreshParseDataBTN:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="gup-ap-7Eb">
+                            <connections>
+                                <action selector="logoutButton:" destination="LgK-MQ-Dfg" id="871-Ck-h19"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="mb4-ta-vJw" id="3wO-CB-SdG"/>

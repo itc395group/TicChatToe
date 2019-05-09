@@ -29,13 +29,13 @@ Group Project - README Template
 **Required Must-have Stories**
 
 * -[X] Login Func
-* -[ ] Logout Func
+* -[X] Logout Func
 * -[X] UI
 * -[ ] Have Online User List
 * -[ ] Tic Tac Toe
-* -[ ] Tic Tac Toe Data Stuff
+* -[X] Tic Tac Toe Data Stuff
 * -[X] Establish Connection Between Users
-* -[ ] Function that runs on timer
+* -[X] Function that runs on timer
 * ...
 
 The below gif demos the login, UI, and Data connection between users.
