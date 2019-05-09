@@ -14,6 +14,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     // Class Variables
     var connectedUser: String = ""
     let expireTime = 30.0;
+    var activePlayer = 1 //keep track of which player is which. 1 will be X's
     
     // Master Message Object
     var chatMessages: [PFObject] = [];
@@ -21,8 +22,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     //Outlets
     @IBOutlet weak var chatMessageField: UITextField!
     @IBOutlet weak var tableView: UITableView!
-    
-    
+    //Outlets for tic tac toe buttons
     @IBOutlet weak var topLeft: UIButton!
     @IBOutlet weak var topMiddle: UIButton!
     @IBOutlet weak var topRight: UIButton!
@@ -32,6 +32,19 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var bottomLeft: UIButton!
     @IBOutlet weak var bottomMiddle: UIButton!
     @IBOutlet weak var bottomRight: UIButton!
+    
+    
+    @IBAction func ticTacToeGridAction(_ sender: Any) {
+        if (activePlayer == 1){
+            (sender as AnyObject).setTitle("X", for: .normal)
+            activePlayer = 2
+        }
+        else{
+            (sender as AnyObject).setTitle("O", for: .normal)
+            activePlayer = 1
+        }
+    }
+    
     
     
     override func viewDidLoad() {
