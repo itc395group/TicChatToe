@@ -28,6 +28,7 @@ class UserSelectionTableViewController: UITableViewController {
     //outlets
     
     @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet var UserTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,7 @@ class UserSelectionTableViewController: UITableViewController {
         
         // Sets getChatMessage to retrieve messages every x seconds
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
+        
     }
     
     //-------------------- Utilities --------------------//
@@ -281,6 +283,7 @@ class UserSelectionTableViewController: UITableViewController {
         RefreshParseData()
     }
     // Does a combined refresh and listen
+    //\\'''"
     func RefreshParseData(){
         // refresh parse data
         if(segueTriggered == false){
@@ -394,13 +397,37 @@ class UserSelectionTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    @IBAction func onConnect(_ sender: Any) {
+   /* @IBAction func onConnect(_ sender: Any) {
         selectedUser = (PFUser.current()?.username)!
         atemptToConnect()
+        */
         
+  
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        /*
+        let query = PFQuery(className:"Users")
+        query.limit = queryLimit
+        query.includeKey("user")
+        query.order(byDescending: "createdAt")
+        
+        query.findObjectsInBackground { (messages, error) in
+            if let error = error {
+                // Log details of the failure
+                print(error.localizedDescription)
+            } else if let message = messages {
+                // The find succeeded.
+                self.onlineUsers = message
+                print("Successfully retrieved \(message.count) posts.")
+            }
+            print ("reload tableView")
+            self.tableView.reloadData();
+        } */
+        getOnlineUserList()
         
     }
-    
+
+ 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
@@ -408,18 +435,23 @@ class UserSelectionTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.onlineUsers.count
+        
     }
     
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionCell", for: indexPath) as! UserSelectionCell
      
-     // Configure the cell...
+        // Configure the cell...
+        let post = self.onlineUsers[indexPath.row]
+        let user = post["objectId"] as! PFUser
+        cell.playernameLabel.text = user.username
+        
      
-     return cell
+        return cell
      }
-     */
+ 
     
     /*
      // Override to support conditional editing of the table view.
