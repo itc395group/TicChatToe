@@ -26,6 +26,7 @@ class UserSelectionTableViewController: UITableViewController {
     var atemptingToConnect: Bool = false;
     var nameList: [String] = [];
     var count = 0
+    var tableArr: [UserSelectionTableViewCell] = [];
     
     
     override func viewDidLoad() {
@@ -38,12 +39,12 @@ class UserSelectionTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         // Used for testing, acts as if a user pushed the connect button to those users
-        if (PFUser.current()?.username == "hb1"){
-            selectedUser = "hb4"
-        }
-        if (PFUser.current()?.username == "hb2"){
-            selectedUser = "hb1"
-        }
+//        if (PFUser.current()?.username == "hb1"){
+//            selectedUser = "hb4"
+//        }
+//        if (PFUser.current()?.username == "hb2"){
+//            selectedUser = "hb1"
+//        }
         
         SetUserStatusOnline()
         getOnlineUserList()
@@ -395,6 +396,22 @@ class UserSelectionTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
+    @IBAction func connectButton(_ sender: Any) {
+        
+        //Get the cell that triggered the segue
+        let button = sender as! UIButton
+        
+        //let cell = tableView.cellForRow(at: IndexPath(index: button.tag)) as! UserSelectionTableViewCell
+        
+        selectedUser = tableArr[button.tag].usernameLable.text!
+        
+        //selectedUser = cell.usernameLable.text!
+        
+        //cell.userSelectionButtonOutlet.setTitle("Connecting...", for: UIControl.State.init())
+        
+        atemptingToConnect = true;
+    }
+    
     // Sets Table Rows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         count = 0
@@ -422,6 +439,8 @@ class UserSelectionTableViewController: UITableViewController {
         else{
             count = 0
         }
+        tableArr.removeAll()
+        tableArr.reserveCapacity(count + 10)
         return count
     }
     
@@ -438,6 +457,9 @@ class UserSelectionTableViewController: UITableViewController {
         // Reusable Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionTableViewCell") as! UserSelectionTableViewCell
         
+        cell.userSelectionButtonOutlet.tag = Int(indexPath.row);
+        
+        // Get next if the only one there is self
         if (usr == PFUser.current()?.username){
             selfIndex = indexPath.count + 1
             // gets a single message
@@ -453,6 +475,16 @@ class UserSelectionTableViewController: UITableViewController {
                 if (nameList[index] != PFUser.current()?.username){
                     cell.usernameLable.text = nameList[index]
                     cell.statusLable.text = "✅"
+                    if (usr == selectedUser){
+                        //cell.userSelectionButtonOutlet.setTitle("Connecting...", for: UIControl.State.init())
+                    }
+                    tableArr.insert(cell, at: indexPath.row)
+                    let val = Int(indexPath.row)
+                    let cap = tableArr.capacity
+                    
+                    print("Cap: \(tableArr.capacity) index: \(val)")
+                    
+                    tableArr[val] = cell
                     nameList.append(usr!)
                     //cell.isHidden = false;
                 }

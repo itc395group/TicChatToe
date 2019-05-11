@@ -13,7 +13,7 @@ class UserSelectionTableViewCell: UITableViewCell {
     // Outlets
     @IBOutlet weak var usernameLable: UILabel!
     @IBOutlet weak var statusLable: UILabel!
-    
+    @IBOutlet weak var userSelectionButtonOutlet: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

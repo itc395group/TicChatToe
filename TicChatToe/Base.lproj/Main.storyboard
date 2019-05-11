@@ -127,6 +127,9 @@
                                             <state key="normal" title="Connect to Player">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="connectButton:" destination="LgK-MQ-Dfg" eventType="touchUpInside" id="k1E-AY-4KJ"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Online: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xvg-OY-gVW">
                                             <rect key="frame" x="20" y="42" width="80" height="21"/>
@@ -169,6 +172,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="statusLable" destination="IzA-4V-Nxr" id="cZh-nF-4Sl"/>
+                                    <outlet property="userSelectionButtonOutlet" destination="SUp-Rv-YaD" id="XIs-pR-o4P"/>
                                     <outlet property="usernameLable" destination="ymK-21-NRd" id="tMk-S8-hoN"/>
                                 </connections>
                             </tableViewCell>
