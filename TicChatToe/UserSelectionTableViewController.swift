@@ -20,10 +20,13 @@ class UserSelectionTableViewController: UITableViewController {
     var selectedUser = ""
     var auto: Int = 0;
     var segueTriggered: Bool = false;
-    var runTimer: Bool = false;
+    var runTimer: Bool = true;
     var timerCount: Int = 0;
     var timerMax: Int = 3;
     var atemptingToConnect: Bool = false;
+    var nameList: [String] = [];
+    var count = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +45,13 @@ class UserSelectionTableViewController: UITableViewController {
             selectedUser = "hb1"
         }
         
+        SetUserStatusOnline()
+        getOnlineUserList()
+        tableView.reloadData()
+        
         // Sets getChatMessage to retrieve messages every x seconds
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
+        
     }
     
     //-------------------- Utilities --------------------//
@@ -144,6 +152,7 @@ class UserSelectionTableViewController: UITableViewController {
             // Refresh player list every 3 seconds
             if (timerCount >= timerMax && atemptingToConnect == false){
                 RefreshParseData()
+                SetUserStatusOnline()
             }
             
             // Used to create actions on a delay
@@ -236,29 +245,25 @@ class UserSelectionTableViewController: UITableViewController {
     }
     // This will show other users that you are online
     func SetUserStatusOnline(){
+        print("In user status set online")
+        var found: Bool = false;
         for index in 0..<self.onlineUsers.count {
             
             let singleUser = self.onlineUsers[index];
             let usr = (singleUser["user"] as? PFUser)
             if(usr == PFUser.current() && isExpired(obj: singleUser) == false){
                 print("Found Self Unexpired")
-            }
-            else if(self.onlineUsers.count < 1){
-                // If status has expired, renew
-                let singleUser = PFObject(className: "Users");
-                singleUser["user"] = PFUser.current();
-                
-                singleUser.saveInBackground { (success, error) in
-                    if success {
-                        print("Online Status Updated")
-                    } else if let error = error {
-                        print("Problem saving message: \(error.localizedDescription)")
-                    }
-                }
+                found = true;
             }
         }
+        if (found == false){
+        // If status has expired, renew
+        let singleUser = PFObject(className: "Users");
+        singleUser["user"] = PFUser.current();
+        }
+        
         // If there are no statuses to trigger for loop, set status
-        if (self.onlineUsers.count == 0){
+        if (self.onlineUsers.count == 0 || found == false){
             let singleUser = PFObject(className: "Users");
             singleUser["user"] = PFUser.current();
             
@@ -280,8 +285,8 @@ class UserSelectionTableViewController: UITableViewController {
     func RefreshParseData(){
         // refresh parse data
         if(segueTriggered == false){
-        getOnlineUserList()
-        listenForVerification()
+            getOnlineUserList()
+            listenForVerification()
         }
     }
     
@@ -320,30 +325,30 @@ class UserSelectionTableViewController: UITableViewController {
         
         for index in 0..<self.verification.count {
             if (segueTriggered == false){
-            let singleUser = self.verification[index];
-            let usr = (singleUser["user"] as? PFUser)
-            let atm = (singleUser["atemptingToConnectTo"] as! String)
-            let hrd = singleUser["atemptHeard"] as! Bool
-            // Someone is trying to connect to me.
-            if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == false){
-                print("\(usr?.username ?? "") is Atempting to Connect.")
-                selectedUser = usr!.username!
-                sendVerification(str: "send_heard")
-                break
-            }
-            else if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == true){
-                // Segue to the game screen
-                segueTriggered = true
-                print("Verification Heard!")
-                print("SEGUE TO GAME SCREEN!")
-                
-                for index in 0...15 {
+                let singleUser = self.verification[index];
+                let usr = (singleUser["user"] as? PFUser)
+                let atm = (singleUser["atemptingToConnectTo"] as! String)
+                let hrd = singleUser["atemptHeard"] as! Bool
+                // Someone is trying to connect to me.
+                if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == false){
+                    print("\(usr?.username ?? "") is Atempting to Connect.")
+                    selectedUser = usr!.username!
                     sendVerification(str: "send_heard")
+                    break
                 }
-                
-                self.performSegue(withIdentifier: "gameSegue", sender: nil)
-                break
-            }
+                else if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == true){
+                    // Segue to the game screen
+                    segueTriggered = true
+                    print("Verification Heard!")
+                    print("SEGUE TO GAME SCREEN!")
+                    
+                    for index in 0...15 {
+                        sendVerification(str: "send_heard")
+                    }
+                    
+                    self.performSegue(withIdentifier: "gameSegue", sender: nil)
+                    break
+                }
             }
         }
         if (self.verification.count == 0 && segueTriggered == false){
@@ -390,14 +395,76 @@ class UserSelectionTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+    // Sets Table Rows
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        count = 0
+        nameList = [];
+        //nameList.append(PFUser.current()!.username!)
+        
+        if (onlineUsers.count > 0){
+            for index in 0..<onlineUsers.count{
+                // gets a single message
+                let singleMessage = onlineUsers[index];
+                let usr = (singleMessage["user"] as? PFUser)!.username;
+                
+                // Only increment count if Can Display, Not a Repeat, & Not Self
+                if (canDisplay(obj: singleMessage) && nameList.contains(usr!) == false && usr != PFUser.current()?.username){
+                    count = count + 1
+                    nameList.append(usr!)
+                }
+                else {
+                    if (nameList.contains(usr!) == false){
+                        nameList.append(usr!)
+                    }
+                }
+            }
+        }
+        else{
+            count = 0
+        }
+        return count
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+    // Sets Table Cell Contents
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //nameList = [];
+        //nameList.append(PFUser.current()!.username!)
+        
+        // gets a single message
+        var singleMessage = onlineUsers[indexPath.row];
+        var usr = (singleMessage["user"] as? PFUser)!.username;
+        var selfIndex: Int = 0;
+        
+        // Reusable Cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionTableViewCell") as! UserSelectionTableViewCell
+        
+        if (usr == PFUser.current()?.username){
+            selfIndex = indexPath.count + 1
+            // gets a single message
+            singleMessage = onlineUsers[selfIndex];
+            usr = (singleMessage["user"] as? PFUser)!.username;
+        }
+        else {
+            selfIndex = indexPath.count;
+        }
+
+        if (count > 0){
+            for index in 0..<nameList.count {
+                if (nameList[index] != PFUser.current()?.username){
+                    cell.usernameLable.text = nameList[index]
+                    cell.statusLable.text = "✅"
+                    nameList.append(usr!)
+                    //cell.isHidden = false;
+                }
+            }
+        }
+        else {
+            cell.usernameLable.text = "false"
+            cell.statusLable.text = "false"
+            
+            //cell.isHidden = true;
+        }
+        return cell
     }
     
     
@@ -459,18 +526,18 @@ class UserSelectionTableViewController: UITableViewController {
      */
     
     
-     // MARK: - Navigation
+    // MARK: - Navigation
     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
         
         // Create a new variable to store the instance of PlayerTableViewController
         let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
-     }
+    }
     
- 
+    
     
 }

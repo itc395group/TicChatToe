@@ -12,11 +12,11 @@ import Parse
 class TicTacToeViewController: UIViewController, UITableViewDataSource {
 
     // Class Variables
-    var connectedUser: String = ""
+    var connectedUser: String = "" 
     let expireTime = 30.0;
     var currentTurnNum = 0;
     let dataExpireTime = 60.0;
-    var tttRunTimer: Bool = false;
+    var tttRunTimer: Bool = true;
     var tttTimerCount: Int = 0;
     var tttTimerMax: Int = 3;
     
@@ -248,7 +248,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         // 2 X X X
         // 3 X X X
         
-        for index in 0...tttData.count {
+        for index in 0..<tttData.count {
             let singleData = tttData[index];
             let user = singleData["user"] as! PFUser
             let symbol = singleData["symbol"] as! String
@@ -283,6 +283,8 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
+    
+
 
     // MARK: - Table view data source
 
