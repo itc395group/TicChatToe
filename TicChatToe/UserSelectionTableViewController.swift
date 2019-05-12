@@ -27,10 +27,17 @@ class UserSelectionTableViewController: UITableViewController {
     var nameList: [String] = [];
     var count = 0
     var tableArr: [UserSelectionTableViewCell] = [];
+    var connectionType: String = ""
+    
+    //Color Refrence
+    let myRed = UIColor(red:0.89, green:0.44, blue:0.31, alpha:1.0);
+    let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
+    let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("IN VIEW DID LOAD")
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -38,13 +45,19 @@ class UserSelectionTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        // Used for testing, acts as if a user pushed the connect button to those users
-//        if (PFUser.current()?.username == "hb1"){
-//            selectedUser = "hb4"
-//        }
-//        if (PFUser.current()?.username == "hb2"){
-//            selectedUser = "hb1"
-//        }
+        onlineUsers.removeAll()
+        verification.removeAll()
+        queryLimit = 25
+        selectedUser = ""
+        auto = 0;
+        segueTriggered = false;
+        runTimer = true;
+        timerCount = 0;
+        timerMax = 3;
+        atemptingToConnect = false;
+        nameList.removeAll()
+        count = 0
+        tableArr.removeAll()
         
         SetUserStatusOnline()
         getOnlineUserList()
@@ -56,6 +69,28 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     //-------------------- Utilities --------------------//
+    
+    func resetAfterBackSegue(){
+        print("RESET VALUES")
+        
+        onlineUsers.removeAll()
+        verification.removeAll()
+        queryLimit = 25
+        selectedUser = ""
+        auto = 0;
+        segueTriggered = false;
+        runTimer = true;
+        timerCount = 0;
+        timerMax = 3;
+        atemptingToConnect = false;
+        nameList.removeAll()
+        count = 0
+        tableArr.removeAll()
+        
+        SetUserStatusOnline()
+        getOnlineUserList()
+        tableView.reloadData()
+    }
     
     // Finds if object is expired or not, and if it is it will call the garbage collector.
     func isExpired(obj: PFObject) -> Bool {
@@ -133,6 +168,21 @@ class UserSelectionTableViewController: UITableViewController {
         runTimer = realTimerState
     }
     
+    func garbageCollection(){
+        print("GARBAGE COLLECTING...")
+        getVerificationList()
+        while (onlineUsers.count >= queryLimit || verification.count >= queryLimit) {
+            for index in 0..<onlineUsers.count{
+                isExpired(obj: onlineUsers[index])
+            }
+            for index in 0..<verification.count{
+                isExpired(obj: verification[index])
+            }
+            RefreshParseData()
+        }
+        print("END GARBAGE COLLECTING")
+    }
+    
     //-------------------- Main Timer Function --------------------//
     
     // The logic that will run on a timer
@@ -154,6 +204,7 @@ class UserSelectionTableViewController: UITableViewController {
             if (timerCount >= timerMax && atemptingToConnect == false){
                 RefreshParseData()
                 SetUserStatusOnline()
+                garbageCollection()
             }
             
             // Used to create actions on a delay
@@ -191,10 +242,6 @@ class UserSelectionTableViewController: UITableViewController {
     func getVerificationList(){
         print("Get Parse Data")
         
-        for index in 0..<verification.count {
-            isExpired(obj: verification[index])
-        }
-        
         let query = PFQuery(className:"ConnectionData")
         query.limit = queryLimit;
         query.includeKey("user")
@@ -212,14 +259,13 @@ class UserSelectionTableViewController: UITableViewController {
             print ("reload tableView")
             self.tableView.reloadData();
         }
+        for index in 0..<verification.count {
+            isExpired(obj: verification[index])
+        }
     }
     
     //-------------------- Actions --------------------//
     
-    // Button to call Find Selected Users
-    @IBAction func FindSelectedUserBTN(_ sender: Any) {
-        FindSelectedUsers()
-    }
     // Tries to find selected user using variable "selectedUser"
     func FindSelectedUsers(){
         for index in 0..<onlineUsers.count {
@@ -240,10 +286,6 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
-    // Button to call Set User Status Online
-    @IBAction func SetUserStatusOnlineBTN(_ sender: Any) {
-        SetUserStatusOnline()
-    }
     // This will show other users that you are online
     func SetUserStatusOnline(){
         print("In user status set online")
@@ -278,24 +320,18 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
-    // Button to call Refresh Parse Data
-    @IBAction func RefreshParseDataBTN(_ sender: Any) {
-        RefreshParseData()
-    }
     // Does a combined refresh and listen
     func RefreshParseData(){
         // refresh parse data
         if(segueTriggered == false){
             getOnlineUserList()
             listenForVerification()
+            getVerificationList()
+        }
+        else{
         }
     }
     
-    // Used for testing, doesn't work super well, but keeping it for testing anyhow.
-    @IBAction func autoTester(_ sender: Any) {
-        runTimer = true;
-        atemptingToConnect = true;
-    }
     
     //-------------------- Verification Related --------------------//
     
@@ -333,6 +369,7 @@ class UserSelectionTableViewController: UITableViewController {
                 // Someone is trying to connect to me.
                 if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == false){
                     print("\(usr?.username ?? "") is Atempting to Connect.")
+                    connectFromRequest()
                     selectedUser = usr!.username!
                     sendVerification(str: "send_heard")
                     break
@@ -348,6 +385,7 @@ class UserSelectionTableViewController: UITableViewController {
                     }
                     
                     self.performSegue(withIdentifier: "gameSegue", sender: nil)
+                    //print("SEGUE TO PLAYER SELECTION!")
                     break
                 }
             }
@@ -401,13 +439,35 @@ class UserSelectionTableViewController: UITableViewController {
         //Get the cell that triggered the segue
         let button = sender as! UIButton
         
-        //let cell = tableView.cellForRow(at: IndexPath(index: button.tag)) as! UserSelectionTableViewCell
+        let cell = tableArr[button.tag]
         
-        selectedUser = tableArr[button.tag].usernameLable.text!
+        selectedUser = cell.usernameLable.text!
         
-        //selectedUser = cell.usernameLable.text!
+        cell.userSelectionButtonOutlet.backgroundColor = myBlue;
+        cell.statusLable.text = "🔄"
+        connectionType = "Connecting..."
+        cell.userSelectionButtonOutlet.setTitle("Connecting...", for: UIControl.State.init())
         
-        //cell.userSelectionButtonOutlet.setTitle("Connecting...", for: UIControl.State.init())
+        atemptingToConnect = true;
+    }
+    
+    func connectFromRequest(){
+        //Get the cell that triggered the segue
+        var indexNum: Int = 0;
+        for index in 0..<tableArr.count{
+            if (tableArr[index].usernameLable.text == selectedUser){
+                indexNum = index
+            }
+        }
+        
+        let cell = tableArr[indexNum]
+        
+        selectedUser = cell.usernameLable.text!
+        
+        cell.userSelectionButtonOutlet.backgroundColor = myBlue;
+        cell.statusLable.text = "🔄"
+        connectionType = "Requesting..."
+        cell.userSelectionButtonOutlet.setTitle("Requesting...", for: UIControl.State.init())
         
         atemptingToConnect = true;
     }
@@ -474,9 +534,13 @@ class UserSelectionTableViewController: UITableViewController {
             for index in 0..<nameList.count {
                 if (nameList[index] != PFUser.current()?.username){
                     cell.usernameLable.text = nameList[index]
-                    cell.statusLable.text = "✅"
-                    if (usr == selectedUser){
-                        //cell.userSelectionButtonOutlet.setTitle("Connecting...", for: UIControl.State.init())
+                    if (usr != selectedUser){
+                        cell.statusLable.text = "✅"
+                    }
+                    else if (usr == selectedUser){
+                        cell.userSelectionButtonOutlet.setTitle(connectionType, for: UIControl.State.init())
+                        cell.userSelectionButtonOutlet.backgroundColor = myBlue;
+                        cell.statusLable.text = "🔄"
                     }
                     tableArr.insert(cell, at: indexPath.row)
                     let val = Int(indexPath.row)
@@ -512,54 +576,6 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
-    // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
@@ -569,7 +585,5 @@ class UserSelectionTableViewController: UITableViewController {
         let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
     }
-    
-    
     
 }
