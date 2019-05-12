@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.652124"
+            timestampString = "579334718.0032541"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "UserSelectionTableViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.652656"
+            timestampString = "579334718.004247"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "isExpired(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.653006"
+            timestampString = "579334718.0059969"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
             landmarkName = "isExpired(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.653353"
+            timestampString = "579334718.007411"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "garbageObj(obj:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.653697"
+            timestampString = "579334718.008405"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "425"
+            endingLineNumber = "425"
             landmarkName = "UserSelectionTableViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.654044"
+            timestampString = "579334718.009428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "431"
+            endingLineNumber = "431"
             landmarkName = "listenForVerification()"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.654408"
+            timestampString = "579334718.010401"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "434"
+            endingLineNumber = "434"
             landmarkName = "listenForVerification()"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.654752"
+            timestampString = "579334718.011155"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "listenForVerification()"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.655093"
+            timestampString = "579334718.011857"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381"
+            startingLineNumber = "448"
+            endingLineNumber = "448"
             landmarkName = "listenForVerification()"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.655437"
+            timestampString = "579334718.012525"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.655791"
+            timestampString = "579334718.013505"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "504"
-            endingLineNumber = "504"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.656136"
+            timestampString = "579334718.014377"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "509"
-            endingLineNumber = "509"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.6564879"
+            timestampString = "579334718.015285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "534"
-            endingLineNumber = "534"
+            startingLineNumber = "607"
+            endingLineNumber = "607"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.656909"
+            timestampString = "579334718.016173"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "SetUserStatusOnline()"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.657272"
+            timestampString = "579334718.017033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
             landmarkName = "SetUserStatusOnline()"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.657624"
+            timestampString = "579334718.017879"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "connectButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.657976"
+            timestampString = "579334718.018644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "garbageCollection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.658422"
+            timestampString = "579334718.019263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "garbageCollection()"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,12 +298,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TicChatToe/UserSelectionTableViewController.swift"
-            timestampString = "579321237.6589381"
+            timestampString = "579334718.019961"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "garbageCollection()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TicChatToe/UserSelectionTableViewController.swift"
+            timestampString = "579334718.020799"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "earlyGarbageDump()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

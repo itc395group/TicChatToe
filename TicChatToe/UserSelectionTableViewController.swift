@@ -28,16 +28,35 @@ class UserSelectionTableViewController: UITableViewController {
     var count = 0
     var tableArr: [UserSelectionTableViewCell] = [];
     var connectionType: String = ""
+    var selectedIndex: Int = 0;
     
     //Color Refrence
     let myRed = UIColor(red:0.89, green:0.44, blue:0.31, alpha:1.0);
     let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
     let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
     
+    // Make UserDefautls Accessable
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("IN VIEW DID LOAD")
+        
+        // If no defaults set, set them
+        if (defaults.string(forKey: "nil_test") == nil){
+            print("setting defaults first time")
+            defaults.set(false, forKey: "reset");
+            defaults.set("TEST", forKey: "nil_test");
+            defaults.synchronize();
+        }
+        
+        // If coming reset triggered, do so.
+        if (defaults.bool(forKey: "reset") == true){
+            print("reset triggered by defaults")
+            defaults.set(false, forKey: "reset");
+            defaults.synchronize();
+            resetAfterBackSegue()
+        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -45,19 +64,19 @@ class UserSelectionTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        onlineUsers.removeAll()
-        verification.removeAll()
-        queryLimit = 25
-        selectedUser = ""
-        auto = 0;
-        segueTriggered = false;
-        runTimer = true;
-        timerCount = 0;
-        timerMax = 3;
-        atemptingToConnect = false;
-        nameList.removeAll()
-        count = 0
-        tableArr.removeAll()
+//        onlineUsers.removeAll()
+//        verification.removeAll()
+//        queryLimit = 25
+//        selectedUser = ""
+//        auto = 0;
+//        segueTriggered = false;
+//        runTimer = true;
+//        timerCount = 0;
+//        timerMax = 3;
+//        atemptingToConnect = false;
+//        nameList.removeAll()
+//        count = 0
+//        tableArr.removeAll()
         
         SetUserStatusOnline()
         getOnlineUserList()
@@ -65,7 +84,16 @@ class UserSelectionTableViewController: UITableViewController {
         
         // Sets getChatMessage to retrieve messages every x seconds
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+         //If coming reset triggered, do so.
+        if (defaults.bool(forKey: "reset") == true){
+            defaults.set(false, forKey: "reset");
+            defaults.synchronize();
+            resetAfterBackSegue()
+        }
     }
     
     //-------------------- Utilities --------------------//
@@ -73,6 +101,18 @@ class UserSelectionTableViewController: UITableViewController {
     func resetAfterBackSegue(){
         print("RESET VALUES")
         
+        earlyGarbageDump()
+        
+        let dex = IndexPath(row: selectedIndex, section: 0)
+        
+        let cell = tableView.cellForRow(at: dex) as! UserSelectionTableViewCell
+        
+        cell.setSelected(false, animated: true)
+        
+        cell.userSelectionButtonOutlet.backgroundColor = myGreen;
+        cell.statusLable.text = "✅"
+        //connectionType = "Connect"
+        cell.userSelectionButtonOutlet.setTitle("Connect", for: UIControl.State.init())
         onlineUsers.removeAll()
         verification.removeAll()
         queryLimit = 25
@@ -171,7 +211,6 @@ class UserSelectionTableViewController: UITableViewController {
     func garbageCollection(){
         print("GARBAGE COLLECTING...")
         getVerificationList()
-        while (onlineUsers.count >= queryLimit || verification.count >= queryLimit) {
             for index in 0..<onlineUsers.count{
                 isExpired(obj: onlineUsers[index])
             }
@@ -179,8 +218,36 @@ class UserSelectionTableViewController: UITableViewController {
                 isExpired(obj: verification[index])
             }
             RefreshParseData()
-        }
         print("END GARBAGE COLLECTING")
+    }
+    
+    func earlyGarbageDump(){
+        print("EARLY GARBAGE DUMP...")
+        getVerificationList()
+        for index in 0..<onlineUsers.count{
+            print("XXX-1")
+            let singleUser = self.onlineUsers[index];
+            let usr = (singleUser["user"] as! PFUser).username
+            print("XXX-2")
+            if(usr == PFUser.current()?.username || usr == selectedUser){
+                garbageObj(obj: onlineUsers[index])
+                print("XXX-3")
+            }
+        }
+        for index in 0..<verification.count{
+            print("XXX-4")
+            let singleUser = self.verification[index];
+            print("XXX-5")
+            let usr = (singleUser["user"] as! PFUser).username
+            print("XXX-6")
+            if(usr == PFUser.current()?.username || usr == selectedUser){
+                garbageObj(obj: onlineUsers[index])
+                print("XXX-7")
+            }
+        }
+        print("XXX-8")
+        RefreshParseData()
+        print("END EARLY GARBAGE DUMP")
     }
     
     //-------------------- Main Timer Function --------------------//
@@ -439,6 +506,8 @@ class UserSelectionTableViewController: UITableViewController {
         //Get the cell that triggered the segue
         let button = sender as! UIButton
         
+        selectedIndex = button.tag
+        
         let cell = tableArr[button.tag]
         
         selectedUser = cell.usernameLable.text!
@@ -457,6 +526,7 @@ class UserSelectionTableViewController: UITableViewController {
         for index in 0..<tableArr.count{
             if (tableArr[index].usernameLable.text == selectedUser){
                 indexNum = index
+                selectedIndex = indexNum
             }
         }
         
@@ -508,46 +578,54 @@ class UserSelectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //nameList = [];
         //nameList.append(PFUser.current()!.username!)
-        
+        print("TV-1")
         // gets a single message
         var singleMessage = onlineUsers[indexPath.row];
         var usr = (singleMessage["user"] as? PFUser)!.username;
         var selfIndex: Int = 0;
-        
+        print("TV-2")
         // Reusable Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionTableViewCell") as! UserSelectionTableViewCell
-        
+        print("TV-3")
         cell.userSelectionButtonOutlet.tag = Int(indexPath.row);
-        
+        print("TV-4")
         // Get next if the only one there is self
         if (usr == PFUser.current()?.username){
             selfIndex = indexPath.count + 1
             // gets a single message
+            print("TV-5")
             singleMessage = onlineUsers[selfIndex];
             usr = (singleMessage["user"] as? PFUser)!.username;
         }
         else {
             selfIndex = indexPath.count;
+            print("TV-6")
         }
 
         if (count > 0){
+            print("TV-7")
             for index in 0..<nameList.count {
+                print("TV-8")
                 if (nameList[index] != PFUser.current()?.username){
+                    print("TV-9")
                     cell.usernameLable.text = nameList[index]
-                    if (usr != selectedUser){
-                        cell.statusLable.text = "✅"
-                    }
-                    else if (usr == selectedUser){
+                        print("TV-10")
+                    if (usr == selectedUser){
                         cell.userSelectionButtonOutlet.setTitle(connectionType, for: UIControl.State.init())
                         cell.userSelectionButtonOutlet.backgroundColor = myBlue;
                         cell.statusLable.text = "🔄"
+                        print("TV-11")
+                    }
+                    else {
+                        cell.statusLable.text = "✅"
                     }
                     tableArr.insert(cell, at: indexPath.row)
                     let val = Int(indexPath.row)
                     let cap = tableArr.capacity
+                    print("TV-12")
                     
                     print("Cap: \(tableArr.capacity) index: \(val)")
-                    
+                    print("TV-13")
                     tableArr[val] = cell
                     nameList.append(usr!)
                     //cell.isHidden = false;
@@ -584,6 +662,9 @@ class UserSelectionTableViewController: UITableViewController {
         // Create a new variable to store the instance of PlayerTableViewController
         let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
+        let dex = IndexPath(row: selectedIndex, section: 0)
+        
+        tableView.deselectRow(at: dex, animated: true)
     }
     
 }
