@@ -28,27 +28,28 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var chatMessageField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     //Outlets for tic tac toe buttons
-    @IBOutlet weak var topLeft: UIButton!
-    @IBOutlet weak var topMiddle: UIButton!
-    @IBOutlet weak var topRight: UIButton!
-    @IBOutlet weak var middleLeft: UIButton!
-    @IBOutlet weak var middleMiddle: UIButton!
-    @IBOutlet weak var middleRight: UIButton!
-    @IBOutlet weak var bottomLeft: UIButton!
-    @IBOutlet weak var bottomMiddle: UIButton!
-    @IBOutlet weak var bottomRight: UIButton!
+    @IBOutlet weak var row1col1: UIButton!
+    @IBOutlet weak var row1col2: UIButton!
+    @IBOutlet weak var row1col3: UIButton!
+    @IBOutlet weak var row2col1: UIButton!
+    @IBOutlet weak var row2col2: UIButton!
+    @IBOutlet weak var row2col3: UIButton!
+    @IBOutlet weak var row3col1: UIButton!
+    @IBOutlet weak var row3col2: UIButton!
+    @IBOutlet weak var row3col3: UIButton!
     
     
-    @IBAction func ticTacToeGridAction(_ sender: Any) {
-        if (activePlayer == 1){
-            (sender as AnyObject).setTitle("X", for: .normal)
-            activePlayer = 2
+    /*@IBAction func ticTacToeGridAction(_ sender: Any) {
+        
+        
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: <#T##Int#>, col: <#T##Int#>, turnNum: currentTurnNum)
+        } else{
+            sendValidMove(symbol: "O", row: <#T##Int#>, col: <#T##Int#>, turnNum: currentTurnNum)
         }
-        else{
-            (sender as AnyObject).setTitle("O", for: .normal)
-            activePlayer = 1
-        }
-    }
+        currentTurnNum = currentTurnNum + 1
+            }
+ */
     
     
     
@@ -306,7 +307,107 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
-
+    
+    func checkIfWin() -> Bool{
+        
+    }
+    //tictactoe button actions
+    @IBAction func row1col1(_ sender: Any) {
+        //check for valid move
+       // if isDataExpired(obj: tttData[index]) == false{
+            //send the valid move, update button title on board
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 1, col: 1, turnNum: currentTurnNum)
+                row1col1.setTitle("X", for: .normal)
+            } else{
+                sendValidMove(symbol: "O", row: 1, col: 1, turnNum: currentTurnNum)
+                row1col1.setTitle("O", for: .normal)
+            }
+            currentTurnNum = currentTurnNum + 1
+        }
+        
+    }
+    @IBAction func row1col2(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 1, col: 2, turnNum: currentTurnNum)
+            row1col2.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 1, col: 2, turnNum: currentTurnNum)
+            row1col2.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row1col3(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 1, col: 3, turnNum: currentTurnNum)
+            row1col3.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 1, col: 3, turnNum: currentTurnNum)
+            row1col3.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row2col1(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 2, col: 1, turnNum: currentTurnNum)
+            row2col1.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 2, col: 1, turnNum: currentTurnNum)
+            row2col1.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row2col2(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 2, col: 2, turnNum: currentTurnNum)
+            row2col2.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 2, col: 2, turnNum: currentTurnNum)
+            row2col2.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row2col3(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 2, col: 3, turnNum: currentTurnNum)
+            row2col3.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 2, col: 3, turnNum: currentTurnNum)
+            row2col3.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row3col1(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 3, col: 1, turnNum: currentTurnNum)
+            row3col1.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 3, col: 1, turnNum: currentTurnNum)
+            row3col1.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row3col2(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 3, col: 2, turnNum: currentTurnNum)
+            row3col2.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 3, col: 2, turnNum: currentTurnNum)
+            row3col2.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    @IBAction func row3col3(_ sender: Any) {
+        if (currentTurnNum/2 == 0){
+            sendValidMove(symbol: "X", row: 3, col: 3, turnNum: currentTurnNum)
+            row3col3.setTitle("X", for: .normal)
+        } else{
+            sendValidMove(symbol: "O", row: 3, col: 3, turnNum: currentTurnNum)
+            row3col3.setTitle("O", for: .normal)
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    
     // MARK: - Table view data source
 
 

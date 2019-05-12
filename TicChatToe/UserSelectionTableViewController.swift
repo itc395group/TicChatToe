@@ -20,7 +20,7 @@ class UserSelectionTableViewController: UITableViewController {
     var selectedUser = ""
     var auto: Int = 0;
     var segueTriggered: Bool = false;
-    var runTimer: Bool = false;
+    var runTimer: Bool = true;
     var timerCount: Int = 0;
     var timerMax: Int = 3;
     var atemptingToConnect: Bool = false;
@@ -436,23 +436,35 @@ class UserSelectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         
-        return self.onlineUsers.count
+         let numOfUsers = self.onlineUsers.count
+        var newUserCount = 0
+        for index in 0..<numOfUsers{
+            let usr = self.onlineUsers[index]
+            if isExpired(obj: usr) == false{
+                newUserCount = newUserCount + 1
+            }
+            
+        }
+        return newUserCount
         
     }
     
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let onlineUser = onlineUsers[indexPath.row];
+        let usr = (onlineUser["user"] as? PFUser)!.username;
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionCell", for: indexPath) as! UserSelectionCell
      
         // Configure the cell...
-        let post = self.onlineUsers[indexPath.row]
-        let user = post["objectId"] as! PFUser
-        cell.playernameLabel.text = user.username
+        
+        
+        cell.playernameLabel.text = usr
         
      
         return cell
+    }
     
     @IBAction func logoutButton(_ sender: Any) {
         PFUser.logOut()
@@ -525,5 +537,6 @@ class UserSelectionTableViewController: UITableViewController {
      }
     
  
-    
-}
+   */
+ }
+

@@ -231,6 +231,7 @@
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row1col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="ec4-l6-grM"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="bwA-g1-iVR"/>
                                 </connections>
                             </button>
@@ -242,6 +243,7 @@
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row1col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="rnA-g7-PsG"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="17S-4i-5Wd"/>
                                 </connections>
                             </button>
@@ -253,6 +255,7 @@
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row1col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="rFP-pg-iOt"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="Xuh-q5-9qD"/>
                                 </connections>
                             </button>
@@ -264,6 +267,7 @@
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row2col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="7GV-71-Od6"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="y5y-mm-sBY"/>
                                 </connections>
                             </button>
@@ -275,6 +279,7 @@
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row2col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="H7e-Ng-vHi"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="6E4-RR-jXp"/>
                                 </connections>
                             </button>
@@ -286,6 +291,7 @@
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row2col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="FwL-DC-TXo"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="JNT-Gf-qdp"/>
                                 </connections>
                             </button>
@@ -297,6 +303,7 @@
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row3col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="0as-CS-0j1"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="3xD-fg-zKL"/>
                                 </connections>
                             </button>
@@ -308,6 +315,7 @@
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row3col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="ViM-iF-zUI"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="x7l-JN-Tih"/>
                                 </connections>
                             </button>
@@ -319,6 +327,7 @@
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
+                                    <action selector="row3col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="iY2-Lg-PC4"/>
                                     <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="kZ9-LO-inE"/>
                                 </connections>
                             </button>
@@ -416,17 +425,17 @@
                         <viewLayoutGuide key="safeArea" id="V40-at-IVV"/>
                     </view>
                     <connections>
-                        <outlet property="bottomLeft" destination="GoB-di-sMl" id="uJu-uX-0br"/>
-                        <outlet property="bottomMiddle" destination="CUA-H1-4Bo" id="duB-hg-BoS"/>
-                        <outlet property="bottomRight" destination="UJD-g4-W8a" id="O3R-Fa-V1u"/>
                         <outlet property="chatMessageField" destination="ZR6-Tt-dCa" id="8Fy-e7-bsU"/>
-                        <outlet property="middleLeft" destination="vcU-6n-sxN" id="ISo-8Q-rg1"/>
-                        <outlet property="middleMiddle" destination="9IV-WV-kSZ" id="quO-in-LsL"/>
-                        <outlet property="middleRight" destination="Jzt-ni-i3w" id="9Lp-Xx-Rzm"/>
+                        <outlet property="row1col1" destination="UAS-XO-5Hl" id="3sl-yp-nMi"/>
+                        <outlet property="row1col2" destination="CZ5-7g-vPv" id="VXf-ow-bci"/>
+                        <outlet property="row1col3" destination="abz-Ix-YAS" id="ZNT-UA-tS1"/>
+                        <outlet property="row2col1" destination="vcU-6n-sxN" id="ISo-8Q-rg1"/>
+                        <outlet property="row2col2" destination="9IV-WV-kSZ" id="quO-in-LsL"/>
+                        <outlet property="row2col3" destination="Jzt-ni-i3w" id="9Lp-Xx-Rzm"/>
+                        <outlet property="row3col1" destination="GoB-di-sMl" id="uJu-uX-0br"/>
+                        <outlet property="row3col2" destination="CUA-H1-4Bo" id="duB-hg-BoS"/>
+                        <outlet property="row3col3" destination="UJD-g4-W8a" id="O3R-Fa-V1u"/>
                         <outlet property="tableView" destination="b8L-jV-Iyb" id="zTL-bf-S8n"/>
-                        <outlet property="topLeft" destination="UAS-XO-5Hl" id="3sl-yp-nMi"/>
-                        <outlet property="topMiddle" destination="CZ5-7g-vPv" id="VXf-ow-bci"/>
-                        <outlet property="topRight" destination="abz-Ix-YAS" id="ZNT-UA-tS1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j2K-ca-VwI" userLabel="First Responder" sceneMemberID="firstResponder"/>
