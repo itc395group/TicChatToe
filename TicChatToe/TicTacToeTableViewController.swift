@@ -309,7 +309,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     }
     
     func checkIfWin() -> Bool{
-        getTicTacToeData()
+        //getTicTacToeData()
         
         //check if there are 3 in a row on the board
         
