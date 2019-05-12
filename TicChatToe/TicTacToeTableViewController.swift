@@ -309,12 +309,13 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     }
     
     func checkIfWin() -> Bool{
+        getTicTacToeData()
         
     }
     //tictactoe button actions
     @IBAction func row1col1(_ sender: Any) {
         //check for valid move
-       // if isDataExpired(obj: tttData[index]) == false{
+        //if canDisplay(obj: ) == true {
             //send the valid move, update button title on board
             if (currentTurnNum/2 == 0){
                 sendValidMove(symbol: "X", row: 1, col: 1, turnNum: currentTurnNum)
@@ -324,9 +325,11 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
                 row1col1.setTitle("O", for: .normal)
             }
             currentTurnNum = currentTurnNum + 1
+         //}
+        
         }
         
-    }
+    
     @IBAction func row1col2(_ sender: Any) {
         if (currentTurnNum/2 == 0){
             sendValidMove(symbol: "X", row: 1, col: 2, turnNum: currentTurnNum)
