@@ -12,7 +12,7 @@ import Parse
 class TicTacToeViewController: UIViewController, UITableViewDataSource {
 
     // Make UserDefautls Accessable
-    let defaults = UserDefaults.standard
+    //let defaults = UserDefaults.standard
     
     // Class Variables
     var connectedUser: String = "" 
@@ -33,13 +33,13 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        if (defaults.string(forKey: "nil_test") == nil){
-            defaults.set(true, forKey: "reset");
-            defaults.set("TEST", forKey: "nil_test");
-            defaults.synchronize();
-        }
-        defaults.set(true, forKey: "reset");
-        defaults.synchronize();
+//        if (defaults.string(forKey: "nil_test") == nil){
+//            defaults.set(true, forKey: "reset");
+//            defaults.set("TEST", forKey: "nil_test");
+//            defaults.synchronize();
+//        }
+//        defaults.set(true, forKey: "reset");
+//        defaults.synchronize();
     }
     
     override func viewDidLoad() {
@@ -296,29 +296,4 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        // Pass the selected object to the new view controller.
-//        print("Prepare Seuge Out of Tic Tac Toe")
-//        // Create a new variable to store the instance of PlayerTableViewController
-//        let destinationVC = segue.destination as! UserSelectionTableViewController
-//        destinationVC.onlineUsers.removeAll()
-//        destinationVC.verification.removeAll()
-//        destinationVC.queryLimit = 25
-//        destinationVC.selectedUser = ""
-//        destinationVC.auto = 0
-//        destinationVC.segueTriggered = false;
-//        destinationVC.runTimer = true;
-//        destinationVC.timerCount = 0;
-//        destinationVC.timerMax = 3;
-//        destinationVC.atemptingToConnect = false;
-//        destinationVC.nameList.removeAll()
-//        destinationVC.count = 0
-//        destinationVC.tableArr.removeAll()
-//
-//    }
-    
-    
-
 }

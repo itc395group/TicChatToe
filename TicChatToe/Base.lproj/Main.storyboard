@@ -190,7 +190,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="PZ2-nc-91w" kind="show" identifier="gameSegue" id="rtk-my-Ukz"/>
+                        <segue destination="PZ2-nc-91w" kind="showDetail" identifier="gameSegue" id="rtk-my-Ukz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RZ8-zW-CBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -366,6 +366,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OmZ-za-N7M">
+                                <rect key="frame" x="-3" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Title" id="Qfs-Ic-OrX">
+                                        <barButtonItem key="leftBarButtonItem" title="End" id="hdb-rV-XiQ">
+                                            <connections>
+                                                <action selector="backButton:" destination="PZ2-nc-91w" id="pCd-c2-c8Y"/>
+                                                <segue destination="LgK-MQ-Dfg" kind="showDetail" id="qdc-C9-FLb"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="V40-at-IVV"/>
@@ -396,4 +410,7 @@
             <point key="canvasLocation" x="949" y="121"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="qdc-C9-FLb"/>
+    </inferredMetricsTieBreakers>
 </document>

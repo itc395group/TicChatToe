@@ -13,12 +13,12 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Class Variables
     let debugInfo: Bool = false
-    let expireTime = 20.0
+    let expireTime = 10.0
     var onlineUsers: [PFObject] = [];
     var verification: [PFObject] = [];
-    var queryLimit = 25
+    var queryLimit = 50
     var selectedUser = ""
-    var auto: Int = 0;
+    var atemptCounter: Int = 0;
     var segueTriggered: Bool = false;
     var runTimer: Bool = true;
     var timerCount: Int = 0;
@@ -27,57 +27,23 @@ class UserSelectionTableViewController: UITableViewController {
     var nameList: [String] = [];
     var count = 0
     var tableArr: [UserSelectionTableViewCell] = [];
-    var connectionType: String = ""
     var selectedIndex: Int = 0;
+    var connectionType: String = ""
     
     //Color Refrence
     let myRed = UIColor(red:0.89, green:0.44, blue:0.31, alpha:1.0);
     let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
     let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
     
-    // Make UserDefautls Accessable
-    let defaults = UserDefaults.standard
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("IN VIEW DID LOAD")
-        
-        // If no defaults set, set them
-        if (defaults.string(forKey: "nil_test") == nil){
-            print("setting defaults first time")
-            defaults.set(false, forKey: "reset");
-            defaults.set("TEST", forKey: "nil_test");
-            defaults.synchronize();
-        }
-        
-        // If coming reset triggered, do so.
-        if (defaults.bool(forKey: "reset") == true){
-            print("reset triggered by defaults")
-            defaults.set(false, forKey: "reset");
-            defaults.synchronize();
-            resetAfterBackSegue()
-        }
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-//        onlineUsers.removeAll()
-//        verification.removeAll()
-//        queryLimit = 25
-//        selectedUser = ""
-//        auto = 0;
-//        segueTriggered = false;
-//        runTimer = true;
-//        timerCount = 0;
-//        timerMax = 3;
-//        atemptingToConnect = false;
-//        nameList.removeAll()
-//        count = 0
-//        tableArr.removeAll()
-        
+        EarlyGarbageCollection()
         SetUserStatusOnline()
         getOnlineUserList()
         tableView.reloadData()
@@ -86,51 +52,7 @@ class UserSelectionTableViewController: UITableViewController {
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
-         //If coming reset triggered, do so.
-        if (defaults.bool(forKey: "reset") == true){
-            defaults.set(false, forKey: "reset");
-            defaults.synchronize();
-            resetAfterBackSegue()
-        }
-    }
-    
     //-------------------- Utilities --------------------//
-    
-    func resetAfterBackSegue(){
-        print("RESET VALUES")
-        
-        earlyGarbageDump()
-        
-        let dex = IndexPath(row: selectedIndex, section: 0)
-        
-        let cell = tableView.cellForRow(at: dex) as! UserSelectionTableViewCell
-        
-        cell.setSelected(false, animated: true)
-        
-        cell.userSelectionButtonOutlet.backgroundColor = myGreen;
-        cell.statusLable.text = "✅"
-        //connectionType = "Connect"
-        cell.userSelectionButtonOutlet.setTitle("Connect", for: UIControl.State.init())
-        onlineUsers.removeAll()
-        verification.removeAll()
-        queryLimit = 25
-        selectedUser = ""
-        auto = 0;
-        segueTriggered = false;
-        runTimer = true;
-        timerCount = 0;
-        timerMax = 3;
-        atemptingToConnect = false;
-        nameList.removeAll()
-        count = 0
-        tableArr.removeAll()
-        
-        SetUserStatusOnline()
-        getOnlineUserList()
-        tableView.reloadData()
-    }
     
     // Finds if object is expired or not, and if it is it will call the garbage collector.
     func isExpired(obj: PFObject) -> Bool {
@@ -221,7 +143,7 @@ class UserSelectionTableViewController: UITableViewController {
         print("END GARBAGE COLLECTING")
     }
     
-    func earlyGarbageDump(){
+    func EarlyGarbageCollection(){
         print("EARLY GARBAGE DUMP...")
         getVerificationList()
         for index in 0..<onlineUsers.count{
@@ -404,23 +326,26 @@ class UserSelectionTableViewController: UITableViewController {
     
     // A testing function that will be replaced once we have a timer function
     func atemptToConnect(){
-        if (auto == 0){
+        if (atemptCounter == 0){
             // Set User Status Online, then wait a while before do again
             self.SetUserStatusOnline()
         }
-        else if (auto == 1){
+        else if (atemptCounter == 1){
             // Refresh Parse Data
             self.RefreshParseData()
         }
-        else if (auto == 2){
+        else if (atemptCounter == 2){
             // Initiate connection to user
             self.FindSelectedUsers()
         }
-        else if (auto > 2 && auto < 20){
+        else if (atemptCounter > 2 && atemptCounter < 20){
             // Then refresh like 20 times before start again.
             self.RefreshParseData()
         }
-        auto = auto + 1;
+        else if (atemptCounter > 20){
+            atemptingToConnect = false
+        }
+        atemptCounter = atemptCounter + 1;
     }
     
     // Listen for Verification
@@ -590,14 +515,16 @@ class UserSelectionTableViewController: UITableViewController {
         cell.userSelectionButtonOutlet.tag = Int(indexPath.row);
         print("TV-4")
         // Get next if the only one there is self
-        if (usr == PFUser.current()?.username){
+        if (usr == PFUser.current()?.username && selfIndex < (onlineUsers.count - 1)){
             selfIndex = indexPath.count + 1
             // gets a single message
             print("TV-5")
             singleMessage = onlineUsers[selfIndex];
+            print("TV-5a")
             usr = (singleMessage["user"] as? PFUser)!.username;
         }
         else {
+            print("TV-5c")
             selfIndex = indexPath.count;
             print("TV-6")
         }
