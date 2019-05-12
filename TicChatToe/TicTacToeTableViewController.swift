@@ -311,6 +311,44 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     func checkIfWin() -> Bool{
         getTicTacToeData()
         
+        //check if there are 3 in a row on the board
+        
+        //row 1
+        if ( (row1col1.currentTitle == "X" && row1col2.currentTitle == "X" && row1col3.currentTitle == "X") || (row1col1.currentTitle == "O" && row1col2.currentTitle == "O" && row1col3.currentTitle == "O") ){
+            return true
+        }
+        //row 2
+        else if ( (row2col1.currentTitle == "X" && row2col2.currentTitle == "X" && row2col3.currentTitle == "X" ) || (row2col1.currentTitle == "O" && row2col2.currentTitle == "O" && row2col3.currentTitle == "O" )){
+            return true
+        }
+        //row 3
+        else if (( row3col1.currentTitle == "X" && row3col2.currentTitle == "X" && row3col3.currentTitle == "X") || (row3col1.currentTitle == "O" && row3col2.currentTitle == "O" && row3col3.currentTitle == "O" )){
+            return true
+        }
+        //column 1
+        else if ( (row1col1.currentTitle == "X" && row2col1.currentTitle == "X" && row3col1.currentTitle == "X") || (row1col1.currentTitle == "O" && row2col2.currentTitle == "O" && row3col3.currentTitle == "O" )){
+            return true
+        }
+        //column 2
+        else if (( row1col2.currentTitle == "X" && row2col2.currentTitle == "X" && row3col2.currentTitle == "X" ) || (row1col2.currentTitle == "O" && row2col2.currentTitle == "O" && row3col2.currentTitle == "O")){
+            return true
+        }
+        //column 3
+        else if (( row1col3.currentTitle == "X" && row2col3.currentTitle == "X" && row3col3.currentTitle == "X" ) || (row1col3.currentTitle == "O" && row2col3.currentTitle == "O" && row3col3.currentTitle == "O")){
+            return true
+        }
+        //diagonal 1
+        else if (( row1col1.currentTitle == "X" && row2col2.currentTitle == "X" && row3col3.currentTitle == "X") || (row1col1.currentTitle == "O" && row2col2.currentTitle == "O" && row3col3.currentTitle == "O")){
+            return true
+        }
+        //diagonal 2
+        else if (( row1col3.currentTitle == "X" && row2col2.currentTitle == "X" && row3col1.currentTitle == "X") || (row1col3.currentTitle == "O" && row2col2.currentTitle == "O" && row3col1.currentTitle == "O")){
+            return true
+        }
+        else{
+            return false
+        }
+        
     }
     //tictactoe button actions
     @IBAction func row1col1(_ sender: Any) {
