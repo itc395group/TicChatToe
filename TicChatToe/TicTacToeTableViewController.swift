@@ -11,12 +11,15 @@ import Parse
 
 class TicTacToeViewController: UIViewController, UITableViewDataSource {
 
+    // Make UserDefautls Accessable
+    //let defaults = UserDefaults.standard
+    
     // Class Variables
-    var connectedUser: String = ""
+    var connectedUser: String = "" 
     let expireTime = 30.0;
     var currentTurnNum = 0;
     let dataExpireTime = 60.0;
-    var tttRunTimer: Bool = false;
+    var tttRunTimer: Bool = true;
     var tttTimerCount: Int = 0;
     var tttTimerMax: Int = 3;
     
@@ -52,6 +55,16 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
  */
     
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+//        if (defaults.string(forKey: "nil_test") == nil){
+//            defaults.set(true, forKey: "reset");
+//            defaults.set("TEST", forKey: "nil_test");
+//            defaults.synchronize();
+//        }
+//        defaults.set(true, forKey: "reset");
+//        defaults.synchronize();
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -272,7 +285,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         // 2 X X X
         // 3 X X X
         
-        for index in 0...tttData.count {
+        for index in 0..<tttData.count {
             let singleData = tttData[index];
             let user = singleData["user"] as! PFUser
             let symbol = singleData["symbol"] as! String
@@ -506,6 +519,4 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    */
-
 }

@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class LoginVC_FOR_TESTING_ONLY: UIViewController {
+class LoginViewController: UIViewController {
     
     // Outlets
     @IBOutlet weak var usernameField: UITextField!

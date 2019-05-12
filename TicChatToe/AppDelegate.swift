@@ -13,6 +13,9 @@ import Parse
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    // Set true to enable automatic login of last active user
+    let autoLogin: Bool = false;
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -21,15 +24,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             configuration.applicationId = "tic-chat-toe"
             configuration.server = "https://tic-chat-toe.herokuapp.com/Parse"
         }))
-        // Logic to keep user logged in
-        /*if let currentUser = PFUser.current() {
-         print("Welcome back \(currentUser.username!) 😀")
-         // TODO: Load Chat view controller and set as root view controller
-         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-         let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewController")
-         window?.rootViewController = chatViewController
-         }
-         */
+        if (autoLogin){
+            // Logic to keep user logged in
+            if let currentUser = PFUser.current() {
+                print("Welcome back \(currentUser.username!) 😀")
+                // TODO: Load Chat view controller and set as root view controller
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let chatViewController = storyboard.instantiateViewController(withIdentifier: "UserSelectionRoot")
+                window?.rootViewController = chatViewController
+            }
+        }
         return true
     }
 

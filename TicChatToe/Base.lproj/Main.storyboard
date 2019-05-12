@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--LoginVCFORTESTINGONLY-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="LoginController" id="BYZ-38-t0r" customClass="LoginVC_FOR_TESTING_ONLY" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="TicChatToe" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,7 +95,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserSelectionCell" rowHeight="122" id="cOR-yk-NcA" customClass="UserSelectionCell" customModule="TicChatToe" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserSelectionTableViewCell" rowHeight="122" id="cOR-yk-NcA" customClass="UserSelectionTableViewCell" customModule="TicChatToe" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="122"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cOR-yk-NcA" id="MQt-5c-ZO5">
@@ -127,6 +127,9 @@
                                             <state key="normal" title="Connect to Player">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="connectButton:" destination="LgK-MQ-Dfg" eventType="touchUpInside" id="k1E-AY-4KJ"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Online: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xvg-OY-gVW">
                                             <rect key="frame" x="20" y="42" width="80" height="21"/>
@@ -168,9 +171,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="checkmarkLabel" destination="IzA-4V-Nxr" id="iFA-Tq-CC7"/>
-                                    <outlet property="connectButton" destination="SUp-Rv-YaD" id="wAx-Bi-Ayh"/>
-                                    <outlet property="playernameLabel" destination="ymK-21-NRd" id="fVI-Eo-tIi"/>
+                                    <outlet property="statusLable" destination="IzA-4V-Nxr" id="cZh-nF-4Sl"/>
+                                    <outlet property="userSelectionButtonOutlet" destination="SUp-Rv-YaD" id="XIs-pR-o4P"/>
+                                    <outlet property="usernameLable" destination="ymK-21-NRd" id="tMk-S8-hoN"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -180,35 +183,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Player Selection" id="YPO-tS-Kuq">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Logout" id="gup-ap-7Eb">
-                                <connections>
-                                    <action selector="logoutButton:" destination="LgK-MQ-Dfg" id="871-Ck-h19"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="auto" id="3Ng-x1-cVD">
-                                <connections>
-                                    <action selector="autoTester:" destination="LgK-MQ-Dfg" id="wmQ-y7-YTO"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem title="ConUsr" id="gxx-CR-VkD">
-                                <connections>
-                                    <action selector="FindSelectedUserBTN:" destination="LgK-MQ-Dfg" id="RKf-cL-fxx"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="refreshDat" id="SQK-XX-KeY">
-                                <connections>
-                                    <action selector="RefreshParseDataBTN:" destination="LgK-MQ-Dfg" id="D7y-bb-SSs"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="gup-ap-7Eb">
+                            <connections>
+                                <action selector="logoutButton:" destination="LgK-MQ-Dfg" id="871-Ck-h19"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="UserTableView" destination="mb4-ta-vJw" id="WxW-tw-kGn"/>
-                        <outlet property="tableView" destination="mb4-ta-vJw" id="3wO-CB-SdG"/>
-                        <segue destination="PZ2-nc-91w" kind="show" identifier="gameSegue" id="rtk-my-Ukz"/>
+                        <segue destination="PZ2-nc-91w" kind="showDetail" identifier="gameSegue" id="rtk-my-Ukz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RZ8-zW-CBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -223,113 +205,77 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UAS-XO-5Hl">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UAS-XO-5Hl">
                                 <rect key="frame" x="20" y="132" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row1col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="ec4-l6-grM"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="bwA-g1-iVR"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZ5-7g-vPv">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZ5-7g-vPv">
                                 <rect key="frame" x="157" y="132" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row1col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="rnA-g7-PsG"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="17S-4i-5Wd"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abz-Ix-YAS">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abz-Ix-YAS">
                                 <rect key="frame" x="294" y="116" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="O">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row1col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="rFP-pg-iOt"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="Xuh-q5-9qD"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcU-6n-sxN">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcU-6n-sxN">
                                 <rect key="frame" x="20" y="240" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row2col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="7GV-71-Od6"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="y5y-mm-sBY"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9IV-WV-kSZ">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9IV-WV-kSZ">
                                 <rect key="frame" x="157" y="224" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="O">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row2col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="H7e-Ng-vHi"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="6E4-RR-jXp"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jzt-ni-i3w">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jzt-ni-i3w">
                                 <rect key="frame" x="294" y="240" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row2col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="FwL-DC-TXo"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="JNT-Gf-qdp"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GoB-di-sMl">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GoB-di-sMl">
                                 <rect key="frame" x="20" y="332" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="O">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row3col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="0as-CS-0j1"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="3xD-fg-zKL"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="8" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUA-H1-4Bo">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUA-H1-4Bo">
                                 <rect key="frame" x="157" y="348" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="X">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row3col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="ViM-iF-zUI"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="x7l-JN-Tih"/>
-                                </connections>
                             </button>
-                            <button opaque="NO" tag="9" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJD-g4-W8a">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJD-g4-W8a">
                                 <rect key="frame" x="294" y="332" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
                                 <state key="normal" title="O">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
-                                <connections>
-                                    <action selector="row3col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="iY2-Lg-PC4"/>
-                                    <action selector="ticTacToeGridAction:" destination="PZ2-nc-91w" eventType="touchUpInside" id="kZ9-LO-inE"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uUo-iq-auO">
                                 <rect key="frame" x="128" y="99" width="20" height="380"/>
@@ -420,21 +366,26 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OmZ-za-N7M">
+                                <rect key="frame" x="-3" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Title" id="Qfs-Ic-OrX">
+                                        <barButtonItem key="leftBarButtonItem" title="End" id="hdb-rV-XiQ">
+                                            <connections>
+                                                <action selector="backButton:" destination="PZ2-nc-91w" id="pCd-c2-c8Y"/>
+                                                <segue destination="LgK-MQ-Dfg" kind="showDetail" id="qdc-C9-FLb"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="V40-at-IVV"/>
                     </view>
                     <connections>
                         <outlet property="chatMessageField" destination="ZR6-Tt-dCa" id="8Fy-e7-bsU"/>
-                        <outlet property="row1col1" destination="UAS-XO-5Hl" id="3sl-yp-nMi"/>
-                        <outlet property="row1col2" destination="CZ5-7g-vPv" id="VXf-ow-bci"/>
-                        <outlet property="row1col3" destination="abz-Ix-YAS" id="ZNT-UA-tS1"/>
-                        <outlet property="row2col1" destination="vcU-6n-sxN" id="ISo-8Q-rg1"/>
-                        <outlet property="row2col2" destination="9IV-WV-kSZ" id="quO-in-LsL"/>
-                        <outlet property="row2col3" destination="Jzt-ni-i3w" id="9Lp-Xx-Rzm"/>
-                        <outlet property="row3col1" destination="GoB-di-sMl" id="uJu-uX-0br"/>
-                        <outlet property="row3col2" destination="CUA-H1-4Bo" id="duB-hg-BoS"/>
-                        <outlet property="row3col3" destination="UJD-g4-W8a" id="O3R-Fa-V1u"/>
                         <outlet property="tableView" destination="b8L-jV-Iyb" id="zTL-bf-S8n"/>
                     </connections>
                 </viewController>
@@ -445,7 +396,7 @@
         <!--Navigation Controller-->
         <scene sceneID="eDV-1B-ctH">
             <objects>
-                <navigationController id="CJ4-up-8E6" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="UserSelectionRoot" id="CJ4-up-8E6" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Wuy-Ya-zZv">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -459,4 +410,7 @@
             <point key="canvasLocation" x="949" y="121"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="qdc-C9-FLb"/>
+    </inferredMetricsTieBreakers>
 </document>
