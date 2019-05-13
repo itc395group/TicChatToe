@@ -23,6 +23,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     var tttTimerCount: Int = 0;
     var tttTimerMax: Int = 3;
     
+    
+    
+    
     // Master Message Object
     var chatMessages: [PFObject] = [];
     var tttData: [PFObject] = [];
@@ -295,6 +298,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             
             if (user.username == connectedUser && turn > currentTurnNum){
                 // Send move to Tic Tac Toe Front End Logic
+                processingReceivedMove(Symbol: symbol, row: row, col: col)
                 // processRecievedMove(symbol, row, col, turn)
                 garbageObj(obj: singleData)
             }
@@ -321,41 +325,41 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    func checkIfWin() -> Bool{
+    func checkIfXWin() -> Bool{
         //getTicTacToeData()
         
-        //check if there are 3 in a row on the board
+        //check if there are 3 in a row on the board for X player
         
         //row 1
-        if ( (row1col1.currentTitle == "X" && row1col2.currentTitle == "X" && row1col3.currentTitle == "X") || (row1col1.currentTitle == "O" && row1col2.currentTitle == "O" && row1col3.currentTitle == "O") ){
+        if ( (row1col1.currentTitle == "X" && row1col2.currentTitle == "X" && row1col3.currentTitle == "X")  ){
             return true
         }
         //row 2
-        else if ( (row2col1.currentTitle == "X" && row2col2.currentTitle == "X" && row2col3.currentTitle == "X" ) || (row2col1.currentTitle == "O" && row2col2.currentTitle == "O" && row2col3.currentTitle == "O" )){
+        else if ( (row2col1.currentTitle == "X" && row2col2.currentTitle == "X" && row2col3.currentTitle == "X" ) ){
             return true
         }
         //row 3
-        else if (( row3col1.currentTitle == "X" && row3col2.currentTitle == "X" && row3col3.currentTitle == "X") || (row3col1.currentTitle == "O" && row3col2.currentTitle == "O" && row3col3.currentTitle == "O" )){
+        else if (( row3col1.currentTitle == "X" && row3col2.currentTitle == "X" && row3col3.currentTitle == "X") ){
             return true
         }
         //column 1
-        else if ( (row1col1.currentTitle == "X" && row2col1.currentTitle == "X" && row3col1.currentTitle == "X") || (row1col1.currentTitle == "O" && row2col2.currentTitle == "O" && row3col3.currentTitle == "O" )){
+        else if ( (row1col1.currentTitle == "X" && row2col1.currentTitle == "X" && row3col1.currentTitle == "X") ){
             return true
         }
         //column 2
-        else if (( row1col2.currentTitle == "X" && row2col2.currentTitle == "X" && row3col2.currentTitle == "X" ) || (row1col2.currentTitle == "O" && row2col2.currentTitle == "O" && row3col2.currentTitle == "O")){
+        else if (( row1col2.currentTitle == "X" && row2col2.currentTitle == "X" && row3col2.currentTitle == "X" ) ){
             return true
         }
         //column 3
-        else if (( row1col3.currentTitle == "X" && row2col3.currentTitle == "X" && row3col3.currentTitle == "X" ) || (row1col3.currentTitle == "O" && row2col3.currentTitle == "O" && row3col3.currentTitle == "O")){
+        else if (( row1col3.currentTitle == "X" && row2col3.currentTitle == "X" && row3col3.currentTitle == "X" ) ){
             return true
         }
         //diagonal 1
-        else if (( row1col1.currentTitle == "X" && row2col2.currentTitle == "X" && row3col3.currentTitle == "X") || (row1col1.currentTitle == "O" && row2col2.currentTitle == "O" && row3col3.currentTitle == "O")){
+        else if (( row1col1.currentTitle == "X" && row2col2.currentTitle == "X" && row3col3.currentTitle == "X") ){
             return true
         }
         //diagonal 2
-        else if (( row1col3.currentTitle == "X" && row2col2.currentTitle == "X" && row3col1.currentTitle == "X") || (row1col3.currentTitle == "O" && row2col2.currentTitle == "O" && row3col1.currentTitle == "O")){
+        else if (( row1col3.currentTitle == "X" && row2col2.currentTitle == "X" && row3col1.currentTitle == "X") ){
             return true
         }
         else{
@@ -363,103 +367,215 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
         
     }
+    func checkIfOWin() -> Bool {
+        //check if there are 3 in a row on the board
+        
+        //row 1
+        if ( (row1col1.currentTitle == "O" && row1col2.currentTitle == "O" && row1col3.currentTitle == "O") ){
+            return true
+        }
+            //row 2
+        else if (  (row2col1.currentTitle == "O" && row2col2.currentTitle == "O" && row2col3.currentTitle == "O" )){
+            return true
+        }
+            //row 3
+        else if ( (row3col1.currentTitle == "O" && row3col2.currentTitle == "O" && row3col3.currentTitle == "O" )){
+            return true
+        }
+            //column 1
+        else if (  (row1col1.currentTitle == "O" && row2col2.currentTitle == "O" && row3col3.currentTitle == "O" )){
+            return true
+        }
+            //column 2
+        else if ( (row1col2.currentTitle == "O" && row2col2.currentTitle == "O" && row3col2.currentTitle == "O")){
+            return true
+        }
+            //column 3
+        else if ( (row1col3.currentTitle == "O" && row2col3.currentTitle == "O" && row3col3.currentTitle == "O")){
+            return true
+        }
+            //diagonal 1
+        else if ( (row1col1.currentTitle == "O" && row2col2.currentTitle == "O" && row3col3.currentTitle == "O")){
+            return true
+        }
+            //diagonal 2
+        else if ( (row1col3.currentTitle == "O" && row2col2.currentTitle == "O" && row3col1.currentTitle == "O")){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+ 
+    func processingReceivedMove(Symbol: String, row: Int, col: Int){
+        if (row == 1 && col == 1){
+            row1col1.setTitle(Symbol, for: .normal)
+        }else if (row == 1 && col == 2){
+            row1col2.setTitle(Symbol, for: .normal)
+        }else if (row == 1 && col == 3){
+            row1col3.setTitle(Symbol, for: .normal)
+        }else if (row == 2 && col == 1){
+            row2col1.setTitle(Symbol, for: .normal)
+        }else if (row == 2 && col == 2){
+            row2col2.setTitle(Symbol, for: .normal)
+        }else if (row == 2 && col == 3){
+            row2col3.setTitle(Symbol, for: .normal)
+        }else if (row == 3 && col == 1){
+            row3col1.setTitle(Symbol, for: .normal)
+        }else if (row == 3 && col == 2){
+            row3col2.setTitle(Symbol, for: .normal)
+        }else if (row == 3 && col == 3){
+            row3col3.setTitle(Symbol, for: .normal)
+        }
+        if (checkIfXWin() == true){
+            print("X Wins")
+        }
+        if (checkIfOWin() == true){
+            print("O wins")
+        }
+        currentTurnNum = currentTurnNum + 1
+    }
+    
+    
     //tictactoe button actions
+    
+    
     @IBAction func row1col1(_ sender: Any) {
-        //check for valid move
-        //if canDisplay(obj: ) == true {
-            //send the valid move, update button title on board
+        //check to make sure square is empty and game is active
+        if (row1col1.currentTitle != "X" && row1col1.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
                 sendValidMove(symbol: "X", row: 1, col: 1, turnNum: currentTurnNum)
-                row1col1.setTitle("X", for: .normal)
-            } else{
+            }else{
                 sendValidMove(symbol: "O", row: 1, col: 1, turnNum: currentTurnNum)
-                row1col1.setTitle("O", for: .normal)
             }
-            currentTurnNum = currentTurnNum + 1
-         //}
-        
+            
+        }
+        else{
+            print("invalid move")
         }
         
+        }
+    
     
     @IBAction func row1col2(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 1, col: 2, turnNum: currentTurnNum)
-            row1col2.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 1, col: 2, turnNum: currentTurnNum)
-            row1col2.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row1col2.currentTitle != "X" && row1col2.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 1, col: 2, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 1, col: 2, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row1col3(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 1, col: 3, turnNum: currentTurnNum)
-            row1col3.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 1, col: 3, turnNum: currentTurnNum)
-            row1col3.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row1col3.currentTitle != "X" && row1col3.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 1, col: 3, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 1, col: 3, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row2col1(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 2, col: 1, turnNum: currentTurnNum)
-            row2col1.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 2, col: 1, turnNum: currentTurnNum)
-            row2col1.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row2col1.currentTitle != "X" && row2col1.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 2, col: 1, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 2, col: 1, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row2col2(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 2, col: 2, turnNum: currentTurnNum)
-            row2col2.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 2, col: 2, turnNum: currentTurnNum)
-            row2col2.setTitle("O", for: .normal)
+        ///check to make sure square is empty and game is active
+        if (row2col2.currentTitle != "X" && row2col2.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 2, col: 2, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 2, col: 2, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row2col3(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 2, col: 3, turnNum: currentTurnNum)
-            row2col3.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 2, col: 3, turnNum: currentTurnNum)
-            row2col3.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row2col3.currentTitle != "X" && row2col3.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 2, col: 3, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 2, col: 3, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row3col1(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 3, col: 1, turnNum: currentTurnNum)
-            row3col1.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 3, col: 1, turnNum: currentTurnNum)
-            row3col1.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row3col1.currentTitle != "X" && row3col1.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 3, col: 1, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 3, col: 1, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row3col2(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 3, col: 2, turnNum: currentTurnNum)
-            row3col2.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 3, col: 2, turnNum: currentTurnNum)
-            row3col2.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row3col2.currentTitle != "X" && row3col2.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 3, col: 2, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 3, col: 2, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     @IBAction func row3col3(_ sender: Any) {
-        if (currentTurnNum/2 == 0){
-            sendValidMove(symbol: "X", row: 3, col: 3, turnNum: currentTurnNum)
-            row3col3.setTitle("X", for: .normal)
-        } else{
-            sendValidMove(symbol: "O", row: 3, col: 3, turnNum: currentTurnNum)
-            row3col3.setTitle("O", for: .normal)
+        //check to make sure square is empty and game is active
+        if (row3col3.currentTitle != "X" && row3col3.currentTitle != "O" ){
+            if (currentTurnNum/2 == 0){
+                sendValidMove(symbol: "X", row: 3, col: 3, turnNum: currentTurnNum)
+            }else{
+                sendValidMove(symbol: "O", row: 3, col: 3, turnNum: currentTurnNum)
+            }
+            
         }
-        currentTurnNum = currentTurnNum + 1
+        else{
+            print("invalid move")
+        }
+        
     }
     
     // MARK: - Table view data source
@@ -519,4 +635,5 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
+ }*/
 }

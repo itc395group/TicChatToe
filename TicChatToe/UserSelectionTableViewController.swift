@@ -576,7 +576,7 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+   /* override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let onlineUser = onlineUsers[indexPath.row];
         let usr = (onlineUser["user"] as? PFUser)!.username;
@@ -591,6 +591,7 @@ class UserSelectionTableViewController: UITableViewController {
      
         return cell
     }
+ */
     
     @IBAction func logoutButton(_ sender: Any) {
         PFUser.logOut()
