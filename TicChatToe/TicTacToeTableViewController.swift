@@ -444,9 +444,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row1col1.currentTitle != "X" && row1col1.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 1, col: 1, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 1, col: 1, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 1, col: 1, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 1, col: 1, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -461,9 +461,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row1col2.currentTitle != "X" && row1col2.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 1, col: 2, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 1, col: 2, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 1, col: 2, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 1, col: 2, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -476,9 +476,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row1col3.currentTitle != "X" && row1col3.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 1, col: 3, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 1, col: 3, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 1, col: 3, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 1, col: 3, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -491,9 +491,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row2col1.currentTitle != "X" && row2col1.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 2, col: 1, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 2, col: 1, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 2, col: 1, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 2, col: 1, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -506,9 +506,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         ///check to make sure square is empty and game is active
         if (row2col2.currentTitle != "X" && row2col2.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 2, col: 2, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 2, col: 2, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 2, col: 2, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 2, col: 2, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -521,9 +521,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row2col3.currentTitle != "X" && row2col3.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 2, col: 3, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 2, col: 3, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 2, col: 3, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 2, col: 3, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -536,9 +536,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row3col1.currentTitle != "X" && row3col1.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 3, col: 1, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 3, col: 1, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 3, col: 1, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 3, col: 1, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -551,9 +551,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row3col2.currentTitle != "X" && row3col2.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 3, col: 2, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 3, col: 2, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 3, col: 2, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 3, col: 2, turnNum: currentTurnNum + 1)
             }
             
         }
@@ -566,9 +566,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         //check to make sure square is empty and game is active
         if (row3col3.currentTitle != "X" && row3col3.currentTitle != "O" ){
             if (currentTurnNum/2 == 0){
-                sendValidMove(symbol: "X", row: 3, col: 3, turnNum: currentTurnNum)
+                sendValidMove(symbol: "X", row: 3, col: 3, turnNum: currentTurnNum + 1)
             }else{
-                sendValidMove(symbol: "O", row: 3, col: 3, turnNum: currentTurnNum)
+                sendValidMove(symbol: "O", row: 3, col: 3, turnNum: currentTurnNum + 1)
             }
             
         }
