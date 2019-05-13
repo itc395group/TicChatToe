@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A93D4E42284FEAC00B9ACCA /* UserSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A93D4E32284FEAC00B9ACCA /* UserSelectionTableViewCell.swift */; };
 		5AA8CFC9227B925D00274CF8 /* TicTacToeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA8CFC8227B925D00274CF8 /* TicTacToeTableViewController.swift */; };
 		5AA8CFCB227BA0A300274CF8 /* TicTacToeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA8CFCA227BA0A300274CF8 /* TicTacToeTableViewCell.swift */; };
 		5AD23240227509B200460267 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD2323F227509B200460267 /* LoginViewController.swift */; };
@@ -47,6 +48,7 @@
 		5444F4B980050BCD1983E235 /* Pods_TicChatToeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TicChatToeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		55CFDA4FDC06FABBF770D92E /* Pods_TicChatToe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TicChatToe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		59DC23D6337B47781062F6DA /* Pods-TicChatToeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TicChatToeTests.debug.xcconfig"; path = "Target Support Files/Pods-TicChatToeTests/Pods-TicChatToeTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5A93D4E32284FEAC00B9ACCA /* UserSelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		5AA8CFC8227B925D00274CF8 /* TicTacToeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeTableViewController.swift; sourceTree = "<group>"; };
 		5AA8CFCA227BA0A300274CF8 /* TicTacToeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToeTableViewCell.swift; sourceTree = "<group>"; };
 		5AD2323F227509B200460267 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				5AD2324522750EED00460267 /* UserSelectionTableViewController.swift */,
 				5AA8CFC8227B925D00274CF8 /* TicTacToeTableViewController.swift */,
 				5AA8CFCA227BA0A300274CF8 /* TicTacToeTableViewCell.swift */,
+				5A93D4E32284FEAC00B9ACCA /* UserSelectionTableViewCell.swift */,
 			);
 			path = TicChatToe;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				5AD23240227509B200460267 /* LoginViewController.swift in Sources */,
 				5AA8CFCB227BA0A300274CF8 /* TicTacToeTableViewCell.swift in Sources */,
 				5AD2324622750EED00460267 /* UserSelectionTableViewController.swift in Sources */,
+				5A93D4E42284FEAC00B9ACCA /* UserSelectionTableViewCell.swift in Sources */,
 				9E4D225722727AC2000304CD /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

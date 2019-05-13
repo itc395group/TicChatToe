@@ -15,6 +15,8 @@ class TicTacToeTableViewCell: UITableViewCell {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var messageLable: UILabel!
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
