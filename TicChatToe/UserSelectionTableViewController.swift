@@ -29,11 +29,17 @@ class UserSelectionTableViewController: UITableViewController {
     var tableArr: [UserSelectionTableViewCell] = [];
     var selectedIndex: Int = 0;
     var connectionType: String = ""
+    var seguePlayerPiece: String = ""
     
     //Color Refrence
     let myRed = UIColor(red:0.89, green:0.44, blue:0.31, alpha:1.0);
     let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
     let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
+    
+    //outlets
+    
+    @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet var UserTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +55,8 @@ class UserSelectionTableViewController: UITableViewController {
         tableView.reloadData()
         
         // Sets getChatMessage to retrieve messages every x seconds
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
+        
     }
     
     //-------------------- Utilities --------------------//
@@ -310,6 +317,7 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     // Does a combined refresh and listen
+    //\\'''"
     func RefreshParseData(){
         // refresh parse data
         if(segueTriggered == false){
@@ -441,7 +449,7 @@ class UserSelectionTableViewController: UITableViewController {
         cell.statusLable.text = "🔄"
         connectionType = "Connecting..."
         cell.userSelectionButtonOutlet.setTitle("Connecting...", for: UIControl.State.init())
-        
+        seguePlayerPiece = "X"
         atemptingToConnect = true;
     }
     
@@ -463,7 +471,7 @@ class UserSelectionTableViewController: UITableViewController {
         cell.statusLable.text = "🔄"
         connectionType = "Requesting..."
         cell.userSelectionButtonOutlet.setTitle("Requesting...", for: UIControl.State.init())
-        
+        seguePlayerPiece = "O"
         atemptingToConnect = true;
     }
     
@@ -515,7 +523,8 @@ class UserSelectionTableViewController: UITableViewController {
         cell.userSelectionButtonOutlet.tag = Int(indexPath.row);
         print("TV-4")
         // Get next if the only one there is self
-        if (usr == PFUser.current()?.username && selfIndex < (onlineUsers.count - 1)){
+        if (usr == PFUser.current()?.username && (indexPath.count + 1) < (onlineUsers.count)){
+        //if (usr == PFUser.current()?.username && (indexPath.count + 1) < (onlineUsers.count - 1)){
             selfIndex = indexPath.count + 1
             // gets a single message
             print("TV-5")
@@ -548,7 +557,6 @@ class UserSelectionTableViewController: UITableViewController {
                     }
                     tableArr.insert(cell, at: indexPath.row)
                     let val = Int(indexPath.row)
-                    let cap = tableArr.capacity
                     print("TV-12")
                     
                     print("Cap: \(tableArr.capacity) index: \(val)")
@@ -568,6 +576,23 @@ class UserSelectionTableViewController: UITableViewController {
         return cell
     }
     
+
+   /* override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let onlineUser = onlineUsers[indexPath.row];
+        let usr = (onlineUser["user"] as? PFUser)!.username;
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionCell", for: indexPath) as! UserSelectionCell
+     
+        // Configure the cell...
+        
+        
+        cell.playernameLabel.text = usr
+        
+     
+        return cell
+    }
+ */
     
     @IBAction func logoutButton(_ sender: Any) {
         PFUser.logOut()
@@ -589,6 +614,7 @@ class UserSelectionTableViewController: UITableViewController {
         // Create a new variable to store the instance of PlayerTableViewController
         let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
+        destinationVC.playersPiece = self.seguePlayerPiece
         let dex = IndexPath(row: selectedIndex, section: 0)
         
         tableView.deselectRow(at: dex, animated: true)
