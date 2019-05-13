@@ -31,15 +31,15 @@ Group Project - README Template
 * -[X] Login Func
 * -[X] Logout Func
 * -[X] UI
-* -[ ] Have Online User List
-* -[ ] Tic Tac Toe
+* -[X] Have Online User List
+* -[X] Tic Tac Toe
 * -[X] Tic Tac Toe Data Stuff
 * -[X] Establish Connection Between Users
 * -[X] Function that runs on timer
 * ...
 
-The below gif demos the login, UI, and Data connection between users.
-<img src='https://i.imgur.com/GWuhauu.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+The below gif demos all of the app.
+<img src='https://i.imgur.com/KJbirpm.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 **Optional Nice-to-have Stories**
 
@@ -47,7 +47,7 @@ The below gif demos the login, UI, and Data connection between users.
 * -Score Board
 * -Friend System
 * -Leader Board
-* * -Have Garbage Collection
+* -[X] Have Garbage Collection
 * - seperate registration screen
 
 ### 2. Screen Archetypes

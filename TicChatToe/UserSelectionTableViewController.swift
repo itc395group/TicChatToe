@@ -31,24 +31,18 @@ class UserSelectionTableViewController: UITableViewController {
     var connectionType: String = ""
     var seguePlayerPiece: String = ""
     
-    //Color Refrence
+    //Colors
     let myRed = UIColor(red:0.89, green:0.44, blue:0.31, alpha:1.0);
     let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
     let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
     
-    //outlets
-    
+    // Outlets
     @IBOutlet weak var connectButton: UIButton!
     @IBOutlet var UserTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("IN VIEW DID LOAD")
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
         EarlyGarbageCollection()
         SetUserStatusOnline()
         getOnlineUserList()
@@ -137,6 +131,7 @@ class UserSelectionTableViewController: UITableViewController {
         runTimer = realTimerState
     }
     
+    // Runs through all datasets and will remove expired data
     func garbageCollection(){
         print("GARBAGE COLLECTING...")
         getVerificationList()
@@ -150,31 +145,24 @@ class UserSelectionTableViewController: UITableViewController {
         print("END GARBAGE COLLECTING")
     }
     
+    // Treats all data from current user as expired, and removes it
     func EarlyGarbageCollection(){
         print("EARLY GARBAGE DUMP...")
         getVerificationList()
         for index in 0..<onlineUsers.count{
-            print("XXX-1")
             let singleUser = self.onlineUsers[index];
             let usr = (singleUser["user"] as! PFUser).username
-            print("XXX-2")
             if(usr == PFUser.current()?.username || usr == selectedUser){
                 garbageObj(obj: onlineUsers[index])
-                print("XXX-3")
             }
         }
         for index in 0..<verification.count{
-            print("XXX-4")
             let singleUser = self.verification[index];
-            print("XXX-5")
             let usr = (singleUser["user"] as! PFUser).username
-            print("XXX-6")
             if(usr == PFUser.current()?.username || usr == selectedUser){
                 garbageObj(obj: onlineUsers[index])
-                print("XXX-7")
             }
         }
-        print("XXX-8")
         RefreshParseData()
         print("END EARLY GARBAGE DUMP")
     }
@@ -317,7 +305,6 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     // Does a combined refresh and listen
-    //\\'''"
     func RefreshParseData(){
         // refresh parse data
         if(segueTriggered == false){
@@ -329,10 +316,9 @@ class UserSelectionTableViewController: UITableViewController {
         }
     }
     
-    
     //-------------------- Verification Related --------------------//
     
-    // A testing function that will be replaced once we have a timer function
+    // This function will run the process of trying to connect with each time it is called.
     func atemptToConnect(){
         if (atemptCounter == 0){
             // Set User Status Online, then wait a while before do again
@@ -347,7 +333,7 @@ class UserSelectionTableViewController: UITableViewController {
             self.FindSelectedUsers()
         }
         else if (atemptCounter > 2 && atemptCounter < 20){
-            // Then refresh like 20 times before start again.
+            // Then refresh 20 times before start again.
             self.RefreshParseData()
         }
         else if (atemptCounter > 20){
@@ -374,12 +360,14 @@ class UserSelectionTableViewController: UITableViewController {
                     sendVerification(str: "send_heard")
                     break
                 }
+                // Verification heard, time to segue
                 else if(atm == PFUser.current()?.username && isExpired(obj: singleUser) == false && hrd == true){
                     // Segue to the game screen
                     segueTriggered = true
                     print("Verification Heard!")
                     print("SEGUE TO GAME SCREEN!")
                     
+                    // Blast verification heard to help guarentee delivery
                     for index in 0...15 {
                         sendVerification(str: "send_heard")
                     }
@@ -396,7 +384,7 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     
-    // Sends Verification
+    // Sends Verification based on argument sent to it
     func sendVerification(str: String){
         // Sends first verification
         if (str == "first_send"){
@@ -434,17 +422,18 @@ class UserSelectionTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
+    // Button in the tableview cell that initiates connection
     @IBAction func connectButton(_ sender: Any) {
-        
-        //Get the cell that triggered the segue
+        //Get sender
         let button = sender as! UIButton
-        
+        // Get tag that was attached to the button
         selectedIndex = button.tag
-        
+        //Use tag to find cell information
         let cell = tableArr[button.tag]
-        
+        //Assign selected user from cell data
         selectedUser = cell.usernameLable.text!
         
+        // Modify cell to display connection is occurring
         cell.userSelectionButtonOutlet.backgroundColor = myBlue;
         cell.statusLable.text = "🔄"
         connectionType = "Connecting..."
@@ -453,8 +442,9 @@ class UserSelectionTableViewController: UITableViewController {
         atemptingToConnect = true;
     }
     
+    // Runs when a user recieves a connection request
     func connectFromRequest(){
-        //Get the cell that triggered the segue
+        //Get the cell that triggered the segue by searching for the cell that contains the requestor
         var indexNum: Int = 0;
         for index in 0..<tableArr.count{
             if (tableArr[index].usernameLable.text == selectedUser){
@@ -462,11 +452,12 @@ class UserSelectionTableViewController: UITableViewController {
                 selectedIndex = indexNum
             }
         }
-        
+        // Get cell
         let cell = tableArr[indexNum]
-        
+        // Assign selected user from cell data
         selectedUser = cell.usernameLable.text!
         
+        // Modify cell to display request is occurring
         cell.userSelectionButtonOutlet.backgroundColor = myBlue;
         cell.statusLable.text = "🔄"
         connectionType = "Requesting..."
@@ -479,8 +470,7 @@ class UserSelectionTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         count = 0
         nameList = [];
-        //nameList.append(PFUser.current()!.username!)
-        
+        // Gets number by keeping track of usernames, and doesn't allow duplicates or self.
         if (onlineUsers.count > 0){
             for index in 0..<onlineUsers.count{
                 // gets a single message
@@ -502,6 +492,7 @@ class UserSelectionTableViewController: UITableViewController {
         else{
             count = 0
         }
+        // Prepares tableview cell copy
         tableArr.removeAll()
         tableArr.reserveCapacity(count + 10)
         return count
@@ -509,91 +500,52 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Sets Table Cell Contents
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //nameList = [];
-        //nameList.append(PFUser.current()!.username!)
-        print("TV-1")
         // gets a single message
         var singleMessage = onlineUsers[indexPath.row];
         var usr = (singleMessage["user"] as? PFUser)!.username;
         var selfIndex: Int = 0;
-        print("TV-2")
+        
         // Reusable Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionTableViewCell") as! UserSelectionTableViewCell
-        print("TV-3")
         cell.userSelectionButtonOutlet.tag = Int(indexPath.row);
-        print("TV-4")
-        // Get next if the only one there is self
+        
+        // Get next user if current is self, and there is more users ahead
         if (usr == PFUser.current()?.username && (indexPath.count + 1) < (onlineUsers.count)){
-        //if (usr == PFUser.current()?.username && (indexPath.count + 1) < (onlineUsers.count - 1)){
             selfIndex = indexPath.count + 1
             // gets a single message
-            print("TV-5")
             singleMessage = onlineUsers[selfIndex];
-            print("TV-5a")
             usr = (singleMessage["user"] as? PFUser)!.username;
         }
         else {
-            print("TV-5c")
             selfIndex = indexPath.count;
-            print("TV-6")
         }
 
         if (count > 0){
-            print("TV-7")
             for index in 0..<nameList.count {
-                print("TV-8")
                 if (nameList[index] != PFUser.current()?.username){
-                    print("TV-9")
                     cell.usernameLable.text = nameList[index]
-                        print("TV-10")
+                    // Keeps the proper connection look if connection is happening
                     if (usr == selectedUser){
                         cell.userSelectionButtonOutlet.setTitle(connectionType, for: UIControl.State.init())
                         cell.userSelectionButtonOutlet.backgroundColor = myBlue;
                         cell.statusLable.text = "🔄"
-                        print("TV-11")
                     }
                     else {
                         cell.statusLable.text = "✅"
                     }
+                    // Populate tableArr with all cells headed for tableview to there is a copy available
                     tableArr.insert(cell, at: indexPath.row)
                     let val = Int(indexPath.row)
-                    print("TV-12")
-                    
-                    print("Cap: \(tableArr.capacity) index: \(val)")
-                    print("TV-13")
                     tableArr[val] = cell
+                    // Adds username to list to prevent duplicates
                     nameList.append(usr!)
-                    //cell.isHidden = false;
                 }
             }
         }
-        else {
-            cell.usernameLable.text = "false"
-            cell.statusLable.text = "false"
-            
-            //cell.isHidden = true;
-        }
         return cell
     }
     
-
-   /* override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let onlineUser = onlineUsers[indexPath.row];
-        let usr = (onlineUser["user"] as? PFUser)!.username;
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionCell", for: indexPath) as! UserSelectionCell
-     
-        // Configure the cell...
-        
-        
-        cell.playernameLabel.text = usr
-        
-     
-        return cell
-    }
- */
-    
+    // Logs user out and goes to login screen
     @IBAction func logoutButton(_ sender: Any) {
         PFUser.logOut()
         
@@ -606,11 +558,8 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    // Prep for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
         // Create a new variable to store the instance of PlayerTableViewController
         let destinationVC = segue.destination as! TicTacToeViewController
         destinationVC.connectedUser = self.selectedUser
@@ -619,5 +568,4 @@ class UserSelectionTableViewController: UITableViewController {
         
         tableView.deselectRow(at: dex, animated: true)
     }
-    
 }

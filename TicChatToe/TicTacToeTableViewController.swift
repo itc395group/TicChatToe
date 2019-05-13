@@ -11,9 +11,6 @@ import Parse
 
 class TicTacToeViewController: UIViewController, UITableViewDataSource {
     
-    // Make UserDefautls Accessable
-    //let defaults = UserDefaults.standard
-    
     // Class Variables
     var connectedUser: String = "" 
     let expireTime = 30.0;
@@ -33,6 +30,8 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     //Outlets
     @IBOutlet weak var chatMessageField: UITextField!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var navBarOutlet: UINavigationItem!
+    
     //Outlets for tic tac toe buttons
     @IBOutlet weak var row1col1: UIButton!
     @IBOutlet weak var row1col2: UIButton!
@@ -44,45 +43,17 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var row3col2: UIButton!
     @IBOutlet weak var row3col3: UIButton!
     
-    
-    @IBOutlet weak var navBarOutlet: UINavigationItem!
-    
-    //Color Refrence
+    //Colors
     let myRed = UIColor(red:0.89, green:0.44, blue:0.31, alpha:1.0);
     let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
     let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
     
-    
-    /*@IBAction func ticTacToeGridAction(_ sender: Any) {
-     
-     
-     if (currentTurnNum/2 == 0){
-     sendValidMove(symbol: "X", row: <#T##Int#>, col: <#T##Int#>, turnNum: currentTurnNum)
-     } else{
-     sendValidMove(symbol: "O", row: <#T##Int#>, col: <#T##Int#>, turnNum: currentTurnNum)
-     }
-     currentTurnNum = currentTurnNum + 1
-     }
-     */
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        //        if (defaults.string(forKey: "nil_test") == nil){
-        //            defaults.set(true, forKey: "reset");
-        //            defaults.set("TEST", forKey: "nil_test");
-        //            defaults.synchronize();
-        //        }
-        //        defaults.set(true, forKey: "reset");
-        //        defaults.synchronize();
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("TESTING: \(connectedUser)")
         
+        // Removes any leftover data
         EarlyGarbageCollection()
-        
+        // Updates title header
         updateTurnTitle()
         
         if (isMyTurn() == true){
@@ -98,22 +69,15 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         tableView.rowHeight = UITableView.automaticDimension
         // Provide an estimated row height. Used for calculating scroll indicator
         tableView.estimatedRowHeight = 50
+        
         // Sets getChatMessage to retrieve messages every 5 seconds
         Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.getChatMessages), userInfo: nil, repeats: true)
-        
+        // Sets time function to happen ever 0.5 seconds
         Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
         // runs getChatMessages for the first time
         getChatMessages();
         print ("reload tableView")
         self.tableView.reloadData();
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-      //init toolbar
-    
 }
     //-------------------- Main Timer Function --------------------//
     
@@ -144,6 +108,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     
     //-------------------- Chat Functionality --------------------//
     
+    // Allows the enter key to dismiss the keyboard
     @IBAction func messageFieldPrimaryAction(_ sender: Any) {
         chatMessageField.resignFirstResponder()
     }
@@ -184,7 +149,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    //-------------------- Table View Related --------------------//
+    //-------------------- Chat Table View Related --------------------//
     
     // Sets Table Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -215,6 +180,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     
     //-------------------- Utilities --------------------//
     
+    // Runs through all datasets and will remove expired data
     func garbageCollection(){
         print("GARBAGE COLLECTING...")
         for index in 0..<tttData.count{
@@ -228,6 +194,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         print("END GARBAGE COLLECTING")
     }
     
+    // Treats all data from current user as expired, and removes it
     func EarlyGarbageCollection(){
         print("EARLY GARBAGE DUMP...")
         for index in 0..<tttData.count{
@@ -249,6 +216,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         print("END EARLY GARBAGE DUMP")
     }
     
+    // Updates the title header
     func updateTurnTitle(){
         if (isMyTurn() == true && didWin == false){
             navBarOutlet.title = ("[\(playersPiece)] Your Turn")
@@ -277,7 +245,6 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             return true;
         }
         
-        
         let storedTime = obj.createdAt as! Date;
         let expTime = storedTime.addingTimeInterval(expireTime);
         let nowTime = Date();
@@ -298,7 +265,6 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             garbageObj(obj: obj)
             return true;
         }
-        
         
         let storedTime = obj.createdAt as! Date;
         let expTime = storedTime.addingTimeInterval(dataExpireTime);
@@ -347,6 +313,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
     
     //-------------------- Tic Tac Toe Data Handling --------------------//
     
+    // Takes in a valid move to be send to other player
     func sendValidMove(symbol: String, row: Int, col: Int, turnNum: Int){
         updateBoard(row: row, col: col, piece: symbol)
         
@@ -366,6 +333,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    // Listens for valid move incomming
     func listenForValidMove(){
         // [row][col]
         //   1 2 3
@@ -390,6 +358,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
+    // Refreshes Tic Tac Toe Data
     func getTicTacToeData(){
         let query = PFQuery(className:"TicTacToe")
         query.addDescendingOrder("createdAt")
@@ -408,8 +377,9 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    // Tic Tac Toe Front End Logic
+    //-------------------- Tic Tac Toe Front End Logic --------------------//
     
+    // Checks for a win
     func checkIfWin() -> Bool {
         print("in checkIfWin")
         //check if there are 3 in a row on the board
@@ -514,6 +484,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         return false
     }
     
+    // Will process a move recieved from data listener
     func processingReceivedMove(Symbol: String, row: Int, col: Int){
         if (row == 1 && col == 1){
             updateBoard(row: row, col: col, piece: Symbol)
@@ -543,9 +514,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         currentTurnNum = currentTurnNum + 1
     }
     
-    
-    //tictactoe button actions
-    
+    // Takes in a move and will update the place on the board
     func updateBoard(row: Int, col: Int, piece: String){
         updateTurnTitle()
         var color = myRed
@@ -577,7 +546,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
                 row1col3.backgroundColor = UIColor.clear
             }
         }
-        
+            
         else if (row == 2){
             if (col == 1){
                 // Row 2 Col 1
@@ -598,7 +567,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
                 row2col3.backgroundColor = UIColor.clear
             }
         }
-        
+            
         else if (row == 3){
             if (col == 1){
                 // Row 3 Col 1
@@ -651,6 +620,7 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
         return false
     }
     
+    //-------------------- Tic Tac Toe Actions --------------------//
     
     @IBAction func row1col1(_ sender: Any) {
         //check to make sure square is empty and game is active
@@ -663,8 +633,6 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             updateTurnTitle()
         }
     }
-    
-    
     @IBAction func row1col2(_ sender: Any) {
         //check to make sure square is empty and game is active
         if (row1col2.currentTitle != "X" && row1col2.currentTitle != "O" && isMyTurn() == true){
@@ -753,63 +721,4 @@ class TicTacToeViewController: UIViewController, UITableViewDataSource {
             updateTurnTitle()
         }
     }
-    
-    // MARK: - Table view data source
-    
-    
-    
-    /*
-     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-     
-     // Configure the cell...
-     
-     return cell
-     }
-     */
-    
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     }*/
 }
