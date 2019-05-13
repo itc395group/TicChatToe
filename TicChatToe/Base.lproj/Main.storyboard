@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -209,73 +209,100 @@
                                 <rect key="frame" x="20" y="132" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="X">
+                                <state key="normal">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row1col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="2aD-Up-3Kb"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CZ5-7g-vPv">
                                 <rect key="frame" x="157" y="132" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="X">
+                                <state key="normal">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row1col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="VHo-pc-vXZ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abz-Ix-YAS">
                                 <rect key="frame" x="294" y="116" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="O">
+                                <state key="normal">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row1col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="agK-Yh-DQs"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vcU-6n-sxN">
                                 <rect key="frame" x="20" y="240" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="X">
+                                <state key="normal">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row2col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="O4L-oA-fYS"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9IV-WV-kSZ">
                                 <rect key="frame" x="157" y="224" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="O">
+                                <state key="normal">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row2col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="P1t-wD-6f2"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jzt-ni-i3w">
                                 <rect key="frame" x="294" y="240" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="X">
+                                <state key="normal">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row2col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="JeO-iK-nUh"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GoB-di-sMl">
                                 <rect key="frame" x="20" y="332" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="O">
+                                <state key="normal">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row3col1:" destination="PZ2-nc-91w" eventType="touchUpInside" id="7ki-Vg-R90"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUA-H1-4Bo">
                                 <rect key="frame" x="157" y="348" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="X">
+                                <state key="normal">
                                     <color key="titleColor" red="0.91436064240000003" green="0.43796855210000002" blue="0.28751158710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row3col2:" destination="PZ2-nc-91w" eventType="touchUpInside" id="KJY-5v-jnc"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJD-g4-W8a">
                                 <rect key="frame" x="294" y="332" width="100" height="132"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="100"/>
-                                <state key="normal" title="O">
+                                <state key="normal">
                                     <color key="titleColor" red="0.56911879779999996" green="0.82907623050000001" blue="0.46586191649999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="row3col3:" destination="PZ2-nc-91w" eventType="touchUpInside" id="5SB-R3-ONh"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uUo-iq-auO">
                                 <rect key="frame" x="128" y="99" width="20" height="380"/>
@@ -386,6 +413,15 @@
                     </view>
                     <connections>
                         <outlet property="chatMessageField" destination="ZR6-Tt-dCa" id="8Fy-e7-bsU"/>
+                        <outlet property="row1col1" destination="UAS-XO-5Hl" id="4Lv-cD-6YR"/>
+                        <outlet property="row1col2" destination="CZ5-7g-vPv" id="9gM-v9-l2D"/>
+                        <outlet property="row1col3" destination="abz-Ix-YAS" id="Mia-55-Eyk"/>
+                        <outlet property="row2col1" destination="vcU-6n-sxN" id="ppJ-ia-QHQ"/>
+                        <outlet property="row2col2" destination="9IV-WV-kSZ" id="UqW-Wq-JTN"/>
+                        <outlet property="row2col3" destination="Jzt-ni-i3w" id="SRr-07-95j"/>
+                        <outlet property="row3col1" destination="GoB-di-sMl" id="Amn-Vp-awP"/>
+                        <outlet property="row3col2" destination="CUA-H1-4Bo" id="maK-ZL-FDd"/>
+                        <outlet property="row3col3" destination="UJD-g4-W8a" id="edQ-eZ-wXn"/>
                         <outlet property="tableView" destination="b8L-jV-Iyb" id="zTL-bf-S8n"/>
                     </connections>
                 </viewController>

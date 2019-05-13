@@ -35,6 +35,11 @@ class UserSelectionTableViewController: UITableViewController {
     let myBlue = UIColor(red:0.19, green:0.62, blue:0.79, alpha:1.0);
     let myGreen = UIColor(red:0.56, green:0.81, blue:0.48, alpha:1.0);
     
+    //outlets
+    
+    @IBOutlet weak var connectButton: UIButton!
+    @IBOutlet var UserTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("IN VIEW DID LOAD")
@@ -50,6 +55,7 @@ class UserSelectionTableViewController: UITableViewController {
         
         // Sets getChatMessage to retrieve messages every x seconds
         Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.timedFunc), userInfo: nil, repeats: true)
+        
     }
     
     //-------------------- Utilities --------------------//
@@ -310,6 +316,7 @@ class UserSelectionTableViewController: UITableViewController {
     }
     
     // Does a combined refresh and listen
+    //\\'''"
     func RefreshParseData(){
         // refresh parse data
         if(segueTriggered == false){
@@ -568,6 +575,23 @@ class UserSelectionTableViewController: UITableViewController {
         return cell
     }
     
+
+   /* override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let onlineUser = onlineUsers[indexPath.row];
+        let usr = (onlineUser["user"] as? PFUser)!.username;
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserSelectionCell", for: indexPath) as! UserSelectionCell
+     
+        // Configure the cell...
+        
+        
+        cell.playernameLabel.text = usr
+        
+     
+        return cell
+    }
+ */
     
     @IBAction func logoutButton(_ sender: Any) {
         PFUser.logOut()

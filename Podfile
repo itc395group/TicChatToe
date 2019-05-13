@@ -7,6 +7,7 @@ target 'TicChatToe' do
 
   # Pods for TicChatToe
   pod 'Parse'
+  
 
   target 'TicChatToeTests' do
     inherit! :search_paths
