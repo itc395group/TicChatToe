@@ -191,6 +191,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="PZ2-nc-91w" kind="showDetail" identifier="gameSegue" id="rtk-my-Ukz"/>
+                        <segue destination="BYZ-38-t0r" kind="showDetail" identifier="logoutSegue" id="kkC-Dv-SCP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RZ8-zW-CBp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -512,10 +513,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CJf-H8-I6w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="949" y="121"/>
+            <point key="canvasLocation" x="954" y="743"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qdc-C9-FLb"/>
+        <segue reference="R84-SA-qNz"/>
     </inferredMetricsTieBreakers>
 </document>

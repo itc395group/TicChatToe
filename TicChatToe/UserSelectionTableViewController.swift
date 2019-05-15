@@ -547,25 +547,28 @@ class UserSelectionTableViewController: UITableViewController {
     
     // Logs user out and goes to login screen
     @IBAction func logoutButton(_ sender: Any) {
-        PFUser.logOut()
-        
-        let main = UIStoryboard(name: "Main", bundle: nil)
-        let loginViewController = main.instantiateViewController(withIdentifier: "LoginController")
-        
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        
-        delegate.window?.rootViewController = loginViewController
+        self.performSegue(withIdentifier: "logoutSegue", sender: nil)
+        runTimer = false;
     }
     
     
     // Prep for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Create a new variable to store the instance of PlayerTableViewController
-        let destinationVC = segue.destination as! TicTacToeViewController
-        destinationVC.connectedUser = self.selectedUser
-        destinationVC.playersPiece = self.seguePlayerPiece
-        let dex = IndexPath(row: selectedIndex, section: 0)
-        
-        tableView.deselectRow(at: dex, animated: true)
+        if (segueTriggered == true){
+            // Create a new variable to store the instance of PlayerTableViewController
+            let destinationVC = segue.destination as! TicTacToeViewController
+            destinationVC.connectedUser = self.selectedUser
+            destinationVC.playersPiece = self.seguePlayerPiece
+            let dex = IndexPath(row: selectedIndex, section: 0)
+            
+            tableView.deselectRow(at: dex, animated: true)
+        }
+        else {
+            PFUser.logOutInBackground { (error) in
+                if (error != nil) {
+                    print("Error, cannot logout: \(String(describing: error))")
+                }
+            }
+        }
     }
 }
